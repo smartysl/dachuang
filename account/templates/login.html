@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+    <h1>登录</h1>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        {% for field in login_form %}
+        <div>
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <p>{{ field }}</p>
+        </div>
+        {% endfor %}
+        <p>{{ login_form.non_field_errors.as_text }}</p>
+        <input type="submit" value="登录">
+    </form>
+</body>
+</html>
