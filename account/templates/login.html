@@ -3,19 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>login</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
 </head>
 <body>
     <h1>登录</h1>
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
-        {% for field in login_form %}
         <div>
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-            <p>{{ field }}</p>
+            <label for="id_username">用户名</label>
+            <p><input type="text" maxlength="10" name="username" id="id_username" onchange="fun()" required /></p>
+            <label for="{{ login_form.password.id_for_label }}">{{ login_form.password.label }}</label>
+            <p>{{ login_form.password }}</p>
+            <p>{{ login_form.non_field_errors.as_text }}</p>
         </div>
-        {% endfor %}
-        <p>{{ login_form.non_field_errors.as_text }}</p>
         <input type="submit" value="登录">
     </form>
+    <a href="" id="forgetpassword">忘记密码？</a>
+<script>
+    function fun(){
+        var obj=document.getElementById("id_username").value;
+        href="{% url 'forgetpassword' %}?name="+obj;
+        document.getElementById("forgetpassword").href=href;
+    }
+</script>
 </body>
 </html>

@@ -121,3 +121,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_DIRS =[os.path.join(BASE_DIR,"static"),
               ]
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.sina.com"
+EMAIL_PORT = 25
+EMAIL_HOST_USER = "18846810840m@sina.cn" # 你的邮箱账号
+EMAIL_HOST_PASSWORD = "ysl990121" # 你的邮箱密码
+EMAIL_USE_TLS = False # 这里是 False
+EMAIL_FROM = "18846810840m@sina.cn"  # 你的邮箱账号
+
+
