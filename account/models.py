@@ -5,4 +5,16 @@ class User(models.Model):
     email=models.EmailField()
     def __str__(self):
         return self.username
+class Userinfo(models.Model):
+    user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="userinfo")
+    nickname=models.CharField(max_length=7)
+    headimg=models.ImageField(upload_to='headimg')
+    tel=models.CharField(max_length=20)
+    QQ=models.CharField(max_length=20)
+    school=models.CharField(max_length=20)
+    major=models.CharField(max_length=20)
+    grade=models.CharField(max_length=10)
+    aboutme=models.CharField(max_length=100)
+    def __str__(self):
+        return self.tel
 # Create your models here.

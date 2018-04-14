@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect,HttpResponse
-from .models import User
-from .form import Userregisterform,Userloginform,Changepasswordform
+from .models import User,Userinfo
+from .form import Userregisterform,Userloginform,Changepasswordform,Userinfoform
 from django.urls import reverse
 from django.core.mail import send_mail
 def register(request):
@@ -87,17 +87,34 @@ def forgetpassword(request):
             return HttpResponse("没有该用户")
     else:
         return redirect('login')
-
-
-
-
-
-
-
-
-
-
-
-
+def edituserinfo(request):
+    if request.session.get('username',default=None):
+        if request.method=='POST':
+            userinfoform=Userinfoform(request.POST,request.FILES)
+            username = request.session['username']
+            user=User.objects.get(username=username)
+            if user.userinfo.all():
+                    return HttpResponse("修改成功")
+            else:
+                if userinfoform.is_valid():
+                    headimg=userinfoform.cleaned_data['headimg']
+                    nickname=userinfoform.cleaned_data['nickname']
+                    tel=userinfoform.cleaned_data['tel']
+                    QQ=userinfoform.cleaned_data['QQ']
+                    school=userinfoform.cleaned_data['school']
+                    major=userinfoform.cleaned_data['major']
+                    grade=userinfoform.cleaned_data['grade']
+                    aboutme=userinfoform.cleaned_data['aboutme']
+                    Userinfo.objects.create(user=user,nickname=nickname,headimg=headimg,tel=tel,QQ=QQ,school=school,major=major,grade=grade,aboutme=aboutme)
+                    return HttpResponse("修改成功")
+                else:
+                    return HttpResponse("修改失败")
+        else:
+            userinfoform=Userinfoform()
+            context={}
+            context['userinfo_form']=userinfoform
+            return render(request,'edituserinfo.html',context)
+    else:
+        return redirect(reverse('login'))
 
 # Create your views here.

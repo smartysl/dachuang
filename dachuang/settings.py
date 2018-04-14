@@ -128,5 +128,7 @@ EMAIL_HOST_USER = "18846810840m@sina.cn" # 你的邮箱账号
 EMAIL_HOST_PASSWORD = "ysl990121" # 你的邮箱密码
 EMAIL_USE_TLS = False # 这里是 False
 EMAIL_FROM = "18846810840m@sina.cn"  # 你的邮箱账号
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 

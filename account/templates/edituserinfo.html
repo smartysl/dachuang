@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>edit your information</title>
+</head>
+<body>
+    <form action="{% url 'edituserinfo' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ userinfo_form }}
+    <input type="submit" value="修改">
+</form>
+</body>
+</html>
