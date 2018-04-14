@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>register</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}" />
+   
 </head>
 <body>
-     <h1>注册</h1>
+	<div class="HEAD">
+     <h1>学习吧注册</h1>
+     <h3>你好，新朋友！</h3>
+	</div>
+	
+	<div class="FORM">
      <form action="{% url 'register' %}" method="POST">
          {% csrf_token %}
          {% for field in register_form %}
@@ -14,8 +22,11 @@
          <p>{{ field.errors.as_text }}</p>
          {% endfor %}
          <p>{{ register_form.non_field_errors.as_text }}</p>
-         <input type="submit" value="注册">
+         <input type="submit"style="float: right;" value="注册">
      </form>
-	 <h1>于老板带菜鸡</h1>
+    
+	</div>
+
+
 </body>
 </html>

@@ -7,7 +7,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}" />
 </head>
 <body>
+	<div class="HEAD">
     <h1>登录</h1>
+	</div>
+	
+	<div class="FORM">
     <form action="{% url 'login' %}" method="post">
         {% csrf_token %}
         <div>
@@ -20,6 +24,8 @@
         <input type="submit" value="登录">
     </form>
     <a href="" id="forgetpassword">忘记密码？</a>
+	</div>
+	
 <script>
     function fun(){
         var obj=document.getElementById("id_username").value;

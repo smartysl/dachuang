@@ -1,0 +1,39 @@
+body{
+	text-align: center;
+	padding-top: 0px;
+	margin: 0px auto;
+	height: 700px;
+	
+}
+
+
+.HEAD{
+	height: 100px;
+	text-align: center;
+	 background-image: "#";
+	 background-color: darkturquoise;
+	 
+	
+}
+
+.HEAD h1{
+	float: left;
+	padding-left: 30px;
+}
+
+.HEAD a{
+	color: black;
+	padding: 10px 20px;	
+	float: right;
+}
+
+.HEAD a:hover{
+	background-color: deeppink;
+}
+
+
+@media only screen and (min-width: 700px ) {
+	body{
+		width: 800px;
+	}
+}

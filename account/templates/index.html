@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>index</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}" />
 </head>
 <body>
+	<div class="HEAD">
     <h1>您好{{ username }}</h1>
+    
     <a href="{% url 'logout' %}">登出？</a>
+    </div>
+    
+    
+    <div class="guid">
+    	
+    
     <a href="{% url 'changepassword'%}">修改密码</a>
+    
+	</div>
+
 </body>
 </html>
