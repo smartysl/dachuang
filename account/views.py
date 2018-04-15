@@ -89,32 +89,67 @@ def forgetpassword(request):
         return redirect('login')
 def edituserinfo(request):
     if request.session.get('username',default=None):
-        if request.method=='POST':
-            userinfoform=Userinfoform(request.POST,request.FILES)
-            username = request.session['username']
-            user=User.objects.get(username=username)
-            if user.userinfo.all():
-                    return HttpResponse("修改成功")
-            else:
+        username = request.session['username']
+        user = User.objects.get(username=username)
+        if user.userinfo.all():
+            userinfo=Userinfo.objects.get(user=user)
+            if request.method=="POST":
+                userinfoform = Userinfoform(request.POST, request.FILES)
                 if userinfoform.is_valid():
-                    headimg=userinfoform.cleaned_data['headimg']
-                    nickname=userinfoform.cleaned_data['nickname']
-                    tel=userinfoform.cleaned_data['tel']
-                    QQ=userinfoform.cleaned_data['QQ']
-                    school=userinfoform.cleaned_data['school']
-                    major=userinfoform.cleaned_data['major']
-                    grade=userinfoform.cleaned_data['grade']
-                    aboutme=userinfoform.cleaned_data['aboutme']
-                    Userinfo.objects.create(user=user,nickname=nickname,headimg=headimg,tel=tel,QQ=QQ,school=school,major=major,grade=grade,aboutme=aboutme)
-                    return HttpResponse("修改成功")
+                    userinfo.headimg = userinfoform.cleaned_data['headimg']
+                    userinfo.nickname = userinfoform.cleaned_data['nickname']
+                    userinfo.tel = userinfoform.cleaned_data['tel']
+                    userinfo.QQ = userinfoform.cleaned_data['QQ']
+                    userinfo.school = userinfoform.cleaned_data['school']
+                    userinfo.major = userinfoform.cleaned_data['major']
+                    userinfo.grade = userinfoform.cleaned_data['grade']
+                    userinfo.aboutme = userinfoform.cleaned_data['aboutme']
+                    userinfo.save()
+                    return redirect('showuserinfo')
+            else:
+                data={'email':user.email,'nickname':userinfo.nickname,'tel':userinfo.tel,'QQ':userinfo.QQ,'school':userinfo.school
+                                                   ,'major':userinfo.major,'grade':userinfo.grade,'aboutme':userinfo.aboutme}
+                if not userinfo.aboutme:
+                    data['aboutme']='这个人很懒，什么也没有留下'
+                userinfoform=Userinfoform(initial=data)
+                context={}
+                context['userinfo_form']=userinfoform
+                return render(request,'edituserinfo.html',context)
+        else:
+            if request.method=="POST":
+                userinfoform = Userinfoform(request.POST, request.FILES)
+                if userinfoform.is_valid():
+                    headimg = userinfoform.cleaned_data['headimg']
+                    nickname = userinfoform.cleaned_data['nickname']
+                    tel = userinfoform.cleaned_data['tel']
+                    QQ = userinfoform.cleaned_data['QQ']
+                    school = userinfoform.cleaned_data['school']
+                    major = userinfoform.cleaned_data['major']
+                    grade = userinfoform.cleaned_data['grade']
+                    aboutme = userinfoform.cleaned_data['aboutme']
+                    Userinfo.objects.create(user=user, nickname=nickname, headimg=headimg, tel=tel, QQ=QQ, school=school,
+                                        major=major, grade=grade, aboutme=aboutme)
+                    return HttpResponse(reverse('showuserinfo'))
                 else:
                     return HttpResponse("修改失败")
-        else:
-            userinfoform=Userinfoform()
-            context={}
-            context['userinfo_form']=userinfoform
-            return render(request,'edituserinfo.html',context)
+            else:
+                userinfoform = Userinfoform(initial={'email': user.email,'aboutme': '这个人很懒，什么也没有留下'})
+                context = {}
+                context['userinfo_form'] = userinfoform
+                return render(request, 'edituserinfo.html', context)
     else:
         return redirect(reverse('login'))
-
+def showuserinfo(request):
+    if request.session.get('username',default=None):
+        context={}
+        username=request.session['username']
+        user=User.objects.get(username=username)
+        userinfo=Userinfo.objects.filter(user=user)
+        if userinfo:
+            context['userinfo']=userinfo[0]
+        else:
+            context['error_msg']='该用户尚未填写个人信息'
+        return render(request,'show_user_info.html',context)
+    else:
+        return redirect(reverse('login'))
 # Create your views here.
