@@ -21,11 +21,17 @@
             <p>{{ login_form.password }}</p>
             <p>{{ login_form.non_field_errors.as_text }}</p>
         </div>
+
         <input type="submit" value="登录">
+        
+        <a href="" id="forgetpassword">忘记密码？</a>
     </form>
-    <a href="" id="forgetpassword">忘记密码？</a>
+    
+	   <div class="guid_rgs">
+	   <a href="{% url 'register' %}">点击这个传送门获得账户</a>
+	   </div>
+	   
 	</div>
-	
 <script>
     function fun(){
         var obj=document.getElementById("id_username").value;
