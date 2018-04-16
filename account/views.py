@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponseRedirect,HttpResponse
+from django.http import HttpResponseRedirect,HttpResponse,JsonResponse
 from .models import User,Userinfo
 from .form import Userregisterform,Userloginform,Changepasswordform,Userinfoform
 from django.urls import reverse
@@ -105,7 +105,10 @@ def edituserinfo(request):
                     userinfo.grade = userinfoform.cleaned_data['grade']
                     userinfo.aboutme = userinfoform.cleaned_data['aboutme']
                     userinfo.save()
-                    return redirect('showuserinfo')
+                    return redirect(reverse('showuserinfo'))
+                else:
+                    return HttpResponse('修改失败')
+
             else:
                 data={'email':user.email,'nickname':userinfo.nickname,'tel':userinfo.tel,'QQ':userinfo.QQ,'school':userinfo.school
                                                    ,'major':userinfo.major,'grade':userinfo.grade,'aboutme':userinfo.aboutme}
@@ -129,9 +132,8 @@ def edituserinfo(request):
                     aboutme = userinfoform.cleaned_data['aboutme']
                     Userinfo.objects.create(user=user, nickname=nickname, headimg=headimg, tel=tel, QQ=QQ, school=school,
                                         major=major, grade=grade, aboutme=aboutme)
-                    return HttpResponse(reverse('showuserinfo'))
                 else:
-                    return HttpResponse("修改失败")
+                   return redirect(reverse('showuserinfo'))
             else:
                 userinfoform = Userinfoform(initial={'email': user.email,'aboutme': '这个人很懒，什么也没有留下'})
                 context = {}

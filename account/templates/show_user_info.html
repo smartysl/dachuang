@@ -15,6 +15,14 @@
             <p>昵称</p>
             <p>{{ userinfo.nickname }}</p>
         </div>
+       <div>
+           <p>关于个人</p>
+           {% autoescape off %}
+
+           {{ userinfo.aboutme }}
+
+           {% endautoescape %}
+       </div>
 
 
 

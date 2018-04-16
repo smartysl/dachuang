@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +115,14 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+CKEDITOR_CONFIGS = {
+    'default': {
+        'height': 300,
+        'width': 400,
+        'removePlugins':'elementspath',
+        'resize_enabled':False,
+    },
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -130,5 +139,5 @@ EMAIL_USE_TLS = False # 这里是 False
 EMAIL_FROM = "18846810840m@sina.cn"  # 你的邮箱账号
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
+CKEDITOR_UPLOAD_PATH = "content"
 
