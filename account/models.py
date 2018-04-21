@@ -15,6 +15,7 @@ class Userinfo(models.Model):
     major=models.CharField(max_length=20)
     grade=models.CharField(max_length=10)
     aboutme=models.CharField(max_length=100)
+    like_num=models.IntegerField(default=0)
     def __str__(self):
         return self.tel
-# Create your models here.
+

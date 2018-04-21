@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
+    'comment',
     'ckeditor',
     'ckeditor_uploader',
 ]
@@ -140,4 +141,4 @@ EMAIL_FROM = "18846810840m@sina.cn"  # 你的邮箱账号
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 CKEDITOR_UPLOAD_PATH = "content"
-
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

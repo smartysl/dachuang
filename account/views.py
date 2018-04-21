@@ -34,8 +34,8 @@ def login(request):
             user=User.objects.get(username=username)
             if user.password==password:
                 request.session['username']=username
-                i = request.session.get('username', default=None)
-                return render(request,'index.html',{'username':i})
+                request.session.set_expiry(0)
+                return redirect(reverse('main'))
             else:
                 loginform.add_error(None,"用户名或密码错误")
     else:
@@ -86,7 +86,7 @@ def forgetpassword(request):
         else:
             return HttpResponse("没有该用户")
     else:
-        return redirect('login')
+        return redirect(reverse('login'))
 def edituserinfo(request):
     if request.session.get('username',default=None):
         username = request.session['username']

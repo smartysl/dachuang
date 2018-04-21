@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}<title>{{ question_type }}</title>{% endblock %}
+</head>
+<body>
+    {% block content %}
+    {% for question in questions %}
+    <div>
+        {% for userinfo in question.user.userinfo.all %}
+        <a href="{% url 'show_other_user' %}?other_user_name={{ userinfo.nickname }}"><img src="{{ userinfo.headimg.url }}" height="50px" width="50px" ></a>
+        <p>{{ userinfo.nickname }}</p>
+        {% endfor %}
+        {% autoescape off %}
+        <p>{{ question.question_date }}</p>
+        <a href="#">{{ question.question_text }}</a>
+
+        {% endautoescape %}
+    </div>
+    {% endfor %}
+    <form action="{% url 'post_question' '{{ question_type }}' %}" enctype="multipart/form-data" method="post" id="post_question_form">
+    {% csrf_token %}
+        {% for field in question_form %}
+        <label for="{{ field.id_for_lable }}">{{ field.label }}</label>
+        {{ field }}
+        <p>{{ field.errors.as_text }}</p>
+        {% endfor %}
+        <input type="hidden" value="{{ question_type }}" name="question_type">
+        <input type="submit" value="提问">
+    </form>
+    {% endblock %}
+</body>
+</html>

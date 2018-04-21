@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}<title>{{ other_user_name }}的个人主页</title>{% endblock %}
+</head>
+<body>
+    {% block content %}
+    {{ like_mark }}
+    <p id="like_status">{{ like_status }}</p>
+        <p>已获赞数：</p>
+        <p id="like_num">{{ like_num }}</p>
+        <button onclick="like()" id="like_botton">{{ like_status }}</button>
+    {% endblock %}
+</body>
+<script>
+    {% block javasrcipt %}
+    function like()
+    {
+        if($('#like_status').text()=="点赞")
+        {
+        $.ajax({
+            url:'{% url 'show_other_user' %}',
+            type:'POST',
+            data: {'like_status':'like'},
+            cache:false,
+            success: function(data){
+                console.log(data);
+                if(data['status']=="已赞")
+                {
+                    var like_num=parseInt($('#like_num').text());
+                    like_num++;
+                    $('#like_num').text(like_num.toString());
+                    $('#like_status').text("已赞");
+                    $('#like_botton').text("取消点赞");
+                }
+            },
+            error: function(xhr){
+                console.log(xhr);
+            }
+        });
+        }
+        else
+        {
+            $.ajax({
+            url:'{% url 'show_other_user' %}',
+            type:'POST',
+            data: {'like_status':'dislike'},
+            cache:false,
+            success: function(data){
+                console.log(data);
+                if(data['status']=="点赞")
+                {
+                    var like_num=parseInt($('#like_num').text());
+                    like_num--;
+                    $('#like_num').text(like_num.toString());
+                    $('#like_status').text("点赞");
+                    $('#like_botton').text("点赞");
+                }
+            },
+            error: function(xhr){
+                console.log(xhr);
+            }
+        });
+        }
+        return false;
+    };
+    {% endblock %}
+</script>
+</html>

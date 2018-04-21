@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}<title>主页</title>{% endblock %}
+</head>
+<body>
+    {% block content %}
+    <p>HELLO {{ welcome_name }}</p>
+    {% endblock %}
+</body>
+</html>
