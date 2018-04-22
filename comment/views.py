@@ -35,7 +35,10 @@ def show_main(request):
     if username:
         user=User.objects.get(username=username)
         context={}
-        context['welcome_name']=Userinfo.objects.get(user=user).nickname
+        try:
+          context['welcome_name']=Userinfo.objects.get(user=user).nickname
+        except: 
+          context['welcome_name']='friend'
         return render(request,'main.html',context)
     else:
         return redirect(reverse('login'))

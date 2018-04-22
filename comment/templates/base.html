@@ -3,18 +3,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+    
     {% block title%}<title>Title</title>{% endblock %}
      <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
      <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
      <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+     {% block extracss %}{% endblock %}
 </head>
 <body>
-    <div class="nav">
+	<div class="HEAD">
+        <h1>开启愉快的学习之旅</h1>
+		<button onclick="window.open('{% url 'login' %}')" style="color: slateblue;float: right;border: none;background-color: greenyellow;padding: 8px 25px;">登出</button>
+	</div>
+			
+	<div class="guid">
+	    
+	    <div class="dropdown">
+		<button class="dropbtn">   学科    </button>
+        <div class="dropdown-content">
         <a href="{% url 'post_question' 'weijifen' %}">微积分</a>
         <a href="{% url 'post_question' 'xiandai' %}">线性代数</a>
+        </div>
+        </div>
+        
+        
+        <div class="dropdown">
+		<button class="dropbtn">   传送门    </button>
+        <div class="dropdown-content">
+        <a href="{% url 'main' %}">首页</a>
+        <a href="#">你的一切</a>
+        </div>
+        </div>
+        
+        
+      <!--   加入导航内容-->
     </div>
-    {% block content %}
-    {% endblock %}
+        <div class="clear"></div>
+        {% block content %}
+        {% endblock %}
+
+    
+    
+    
+    
 </body>
 <script>
     {% block javasrcipt %}{% endblock %}

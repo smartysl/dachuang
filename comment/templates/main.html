@@ -1,13 +1,37 @@
-<!DOCTYPE html>
+
 {% extends 'base.html' %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% block title %}<title>主页</title>{% endblock %}
-</head>
-<body>
-    {% block content %}
-    <p>HELLO {{ welcome_name }}</p>
-    {% endblock %}
-</body>
-</html>
+{% load staticfiles %}
+{% block title%}<title>主页(❤ ω ❤)</title>{% endblock %}
+{% block extracss %} 
+<link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet" /> 
+{% endblock %}
+
+
+{% block content %}
+    
+    <div class="user">
+    <h3 style="float: left;">HELLO {{ welcome_name }} , 请问今天要来点题吗？</h3>
+    </div>
+     <div class="clear"></div>
+     
+    <div class="object">
+    	 
+    	 <div class="sub">
+    	 	<span>数学</span>
+    	 
+    	 	
+    	 </div>
+    	 
+    	 
+    	
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+{% endblock %}
