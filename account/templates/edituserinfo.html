@@ -24,28 +24,28 @@
     <div id="list">
     </div>
 </body>
-<!--<script>-->
-    <!--$("#edit_form").submit(function(){-->
-        <!--$.ajax({-->
-            <!--url:'{% url 'edituserinfo' %}',-->
-            <!--type:'POST',-->
-            <!--data: $(this).serialize(),-->
-            <!--cache:false,-->
-            <!--success: function(data){-->
-                <!--console.log(data);-->
-                <!--if(data['status']=="success")-->
-                <!--{-->
-                    <!--var add_html='<div>'+data['nickname']+'</div>';-->
-                <!--}-->
-                <!--$("#list").prepend(add_html);-->
-            <!--},-->
-            <!--error: function(xhr){-->
-                <!--console.log(xhr);-->
-            <!--}-->
-        <!--});-->
-        <!--return false;-->
-    <!--});-->
-<!--</script>-->
+<script>
+    $("#edit_form").submit(function(){
+        $.ajax({
+            url:'{% url 'edituserinfo' %}',
+            type:'POST',
+            data: $(this).serialize(),
+            cache:false,
+            success: function(data){
+                console.log(data);
+                if(data['status']=="success")
+                {
+                    var add_html='<div>'+data['nickname']+'</div>';
+                }
+                $("#list").prepend(add_html);
+            },
+            error: function(xhr){
+                console.log(xhr);
+            }
+        });
+        return false;
+    });
+</script>
 </html>
 
 

@@ -15,7 +15,7 @@
         {% endfor %}
         {% autoescape off %}
         <p>{{ question.question_date }}</p>
-        <a href="#">{{ question.question_text }}</a>
+        <a href="{% url 'comment' %}?question_id={{ question.pk }}">{{ question.question_text }}</a>
 
         {% endautoescape %}
     </div>

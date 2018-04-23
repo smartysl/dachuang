@@ -10,4 +10,15 @@ class Like_record(models.Model):
     from_user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="from_user")
     to_user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="to_user")
     likes=models.IntegerField(default=0)
+class Comment(models.Model):
+    comment_question=models.ForeignKey(Question,on_delete=models.DO_NOTHING,null=True)
+    comment_type=models.IntegerField(default=0)
+    comment_user=models.ForeignKey(User,related_name="comment",on_delete=models.DO_NOTHING)
+    reply_user=models.ForeignKey(User,related_name="reply",on_delete=models.DO_NOTHING)
+    comment_text=models.TextField()
+    comment_time=models.DateTimeField(auto_now_add=True)
+    parent_comment=models.ForeignKey('self',null=True,on_delete=models.DO_NOTHING,related_name="parent")
+    root_comment=models.ForeignKey('self',null=True,on_delete=models.DO_NOTHING,related_name="root")
+    class Meta:
+        ordering=['comment_time']
 # Create your models here.

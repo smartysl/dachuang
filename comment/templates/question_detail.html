@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}<title>{{ question.question_text }}</title>{% endblock %}
+</head>
+<body>
+    {% block content %}
+    {% autoescape off %}
+    {{ question.question_text }}
+    {% for comment in comments %}
+    <div class="comment" id="{{ comment.pk }}">
+        {% for comment_user_info in comment.comment_user.userinfo.all %}
+        {{ comment_user_info.nickname }}
+        {% endfor %}
+        {{ comment.comment_text }}
+        {{ comment.comment_time }}
+        <a href="javascript:reply({{ comment.pk }})">回复</a>
+        <p>--------------------------</p>
+    </div>
+    {% for reply in comment.root.all %}
+    <div class="reply" style="color:red;margin-left:100px" id="{{ reply.pk }}">
+        {{ reply.comment_text }}
+        {{ reply.comment_time }}
+        <a href="javascript:reply({{ reply.pk }})">回复</a>
+        <p>--------------------------</p>
+    </div>
+        {% endfor %}
+    {% endfor %}
+    <form action="{% url 'comment' %}" method="post" id="comment_form">
+        {{ comment_form }}
+        <input type="hidden" value="{{ question.pk }}" name="question_id">
+        <input type="submit" value="评论">
+    </form>
+    {% endautoescape %}
+    {% endblock %}
+</body>
+<script>
+    {% block javascript %}
+    function reply(id)
+    {
+        $("#id_comment_id").val(id);
+        $('html').animate({scrollTop:$('#comment_form').offset().top},300,function(){
+        CKEDITOR.instances['id_comment_text'].focus();
+        });
+     }
+    $('#comment_form').submit(function(){
+        CKEDITOR.instances['id_comment_text'].updateElement();
+        $.ajax({
+            url:'{% url 'comment' %}',
+            type:'POST',
+            data: $(this).serialize(),
+            cache:false,
+            success:function(data){
+                var html='<div class="reply" style="color:red;margin-left:100px" id="'+data['comment_id']+'">'+
+        data['comment_text']+data['comment_date']+'<a href="javascript:reply('+data['comment_id']+')">回复</a><p>--------------------------</p></div>';
+                var id=$('#id_comment_id').val();
+                $('#'+id).after(html);
+                $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
+                console.log(html);
+            },
+            error: function(xhr){
+                console.log(xhr);
+            }
+        });
+        return false;
+    });
+    {% endblock %}
+</script>
+</html>

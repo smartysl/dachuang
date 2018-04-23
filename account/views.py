@@ -31,13 +31,16 @@ def login(request):
         if loginform.is_valid():
             username=request.POST.get("username")
             password=loginform.cleaned_data['password']
-            user=User.objects.get(username=username)
-            if user.password==password:
-                request.session['username']=username
-                request.session.set_expiry(0)
-                return redirect(reverse('main'))
+            user=User.objects.filter(username=username)
+            if user:
+                if user[0].password==password:
+                    request.session['username']=username
+                    request.session.set_expiry(0)
+                    return redirect(reverse('main'))
+                else:
+                    loginform.add_error(None,"用户名或密码错误")
             else:
-                loginform.add_error(None,"用户名或密码错误")
+                loginform.add_error(None, "用户名或密码错误")
     else:
         loginform=Userloginform()
     context={}

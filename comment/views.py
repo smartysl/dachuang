@@ -1,19 +1,22 @@
 from django.shortcuts import render,redirect
-from .models import Question,Like_record
+from .models import Question,Like_record,Comment
 from django.urls import reverse
 from account.models import User,Userinfo
-from .form import post_question_form
+from .form import post_question_form,comment_form
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 def post_question(request,question_type):
     if request.method=="POST":
-        question_type=request.session.get('question_type',default=None)
+        # question_type=request.session.get('question_type',default=None)
         username=request.session.get('username',default=None)
         if username:
+            question_type=request.POST['question_type']
             question_form=post_question_form(request.POST,request.FILES)
             if question_form.is_valid():
                 question_text=question_form.cleaned_data['question_text']
                 question_img=question_form.cleaned_data['question_img']
+
                 user=User.objects.get(username=username)
                 question=Question(user=user,question_text=question_text,question_img=question_img,question_type=question_type)
                 question.save()
@@ -94,6 +97,42 @@ def show_other_user(request):
             return render(request,'show_other_user.html',context)
     else:
         return redirect(reverse('login'))
+@csrf_exempt
+def commment(request):
+    username=request.session.get('username',default=None)
+    if username:
+        if request.method=="POST":
+            comment_post_form=comment_form(request.POST)
+            if comment_post_form.is_valid():
+                comment=Comment()
+                comment.comment_text=comment_post_form.cleaned_data['comment_text']
+                parent_comment_id=comment_post_form.cleaned_data['comment_id']
+                comment.comment_user=User.objects.get(username=username)
+                parent_comment=Comment.objects.filter(pk=parent_comment_id)
+                if parent_comment:
+                    comment.parent_comment=parent_comment[0]
+                    comment.root_comment=parent_comment[0].root_comment if not parent_comment[0].root_comment is None else parent_comment[0]
+                    comment.reply_user=parent_comment[0].comment_user
+                else:
+                    comment.parent_comment=None
+                    comment.root_comment=None
+                    question_id=request.POST['question_id']
+                    comment.comment_question=Question.objects.get(pk=question_id)
+                    comment.reply_user=Question.objects.get(pk=question_id).user
+                comment.save()
+                data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
+                return JsonResponse(data)
+            else:
+                return JsonResponse({'status':'fail'})
+        else:
+            question_id=request.GET.get("question_id")
+            question=Question.objects.get(pk=question_id)
+            comments=Comment.objects.filter(comment_question=question,parent_comment=None)
+            context={}
+            context['comments']=comments.order_by('-comment_time')
+            context['question']=question
+            context['comment_form']=comment_form(initial={'comment_id':0})
+            return render(request,'question_detail.html',context)
 
 
 
