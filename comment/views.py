@@ -5,6 +5,7 @@ from account.models import User,Userinfo
 from .form import post_question_form,comment_form
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 @csrf_exempt
 def post_question(request,question_type):
     if request.method=="POST":
@@ -28,9 +29,18 @@ def post_question(request,question_type):
         request.session['question_type']=question_type
         request.session.set_expiry(0)
         question_form=post_question_form(initial={'question_text':'提问最多200字，添加图片效果更好哦'})
+        all_questions=Question.objects.filter(question_type=question_type)
+        paginator=Paginator(all_questions,2)
+        page_num=int(request.GET.get('page',1))
+        questions_of_page=paginator.get_page(page_num)
+        current_page=questions_of_page.number
+        page_range=list(range(max(current_page-2,1),current_page))+list(range(current_page,min(current_page+2,paginator.num_pages)+1))
         context={}
+        context['first_shown_page_num']=page_range[0]
+        context['last_shown_page_num']=page_range[-1]
+        context['page_range']=page_range
         context['question_form']=question_form
-        context['questions']=Question.objects.filter(question_type=question_type)
+        context['questions_of_page']=questions_of_page
         context['question_type']=question_type
         return render(request,'question_list.html',context)
 def show_main(request):

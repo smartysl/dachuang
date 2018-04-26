@@ -7,7 +7,7 @@
 </head>
 <body>
     {% block content %}
-    {% for question in questions %}
+    {% for question in questions_of_page %}
     <div>
         {% for userinfo in question.user.userinfo.all %}
         <a href="{% url 'show_other_user' %}?other_user_name={{ userinfo.nickname }}"><img src="{{ userinfo.headimg.url }}" height="50px" width="50px" ></a>
@@ -16,7 +16,6 @@
         {% autoescape off %}
         <p>{{ question.question_date }}</p>
         <a href="{% url 'comment' %}?question_id={{ question.pk }}">{{ question.question_text }}</a>
-
         {% endautoescape %}
     </div>
     {% endfor %}
@@ -30,6 +29,34 @@
         <input type="hidden" value="{{ question_type }}" name="question_type">
         <input type="submit" value="提问">
     </form>
+    <div class="pagination">
+        <span class="step-links">
+           {% if questions_of_page.has_previous %}
+            <a href="?page=1">&laquo; 首页</a>
+            <a href="?page={{ questions_of_page.previous_page_number }}">上一页</a>
+            {% endif %}
+        <span class="current">
+            第 {{ questions_of_page.number }} 页 共 {{ questions_of_page.paginator.num_pages }} 页
+        </span>
+        <span class="page_list">
+            {% if not first_shown_page_num == 1 %}
+            <a href="?page=1">1</a>
+            <a>......<a>
+            {% endif %}
+            {% for page in page_range %}
+            <a href="?page={{ page }}">{{ page }}</a>
+            {% endfor %}
+            {% if not last_shown_page_num == questions_of_page.paginator.num_pages %}
+            <a>......<a>
+            <a href="?page={{ question_of_page.paginator.num_pages }}">{{ questions_of_page.paginator.num_pages }}</a>
+            {% endif %}
+        </span>
+        {% if questions_of_page.has_next %}
+            <a href="?page={{ questions_of_page.next_page_number }}">下一页</a>
+            <a href="?page={{ questions_of_page.paginator.num_pages }}">尾页 &raquo;</a>
+        {% endif %}
+        </span>
+    </div>
     {% endblock %}
 </body>
 </html>
