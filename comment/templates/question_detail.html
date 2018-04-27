@@ -1,33 +1,54 @@
-<!DOCTYPE html>
+
 {% extends 'base.html' %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% load static %}
+
     {% block title %}<title>{{ question.question_text }}</title>{% endblock %}
-</head>
-<body>
+    {% block extracss %} 
+	<link href="{% static 'css/question_detail.css' %}" type="text/css" rel="stylesheet" /> 
+	{% endblock %}
+
     {% block content %}
     {% autoescape off %}
     {{ question.question_text }}
     {% for comment in comments %}
+    
+    	
+    	
     <div class="comment" id="{{ comment.pk }}">
         {% for comment_user_info in comment.comment_user.userinfo.all %}
-        {{ comment_user_info.nickname }}
+       
+       <div class="user_info">
+       	<h3 style="font: 30px;">{{ comment_user_info.nickname }}</h3>
+       	<p>{{ comment.comment_time }}</p>
+       </div>
+       
         {% endfor %}
+        <div class="text">
         {{ comment.comment_text }}
-        {{ comment.comment_time }}
-        <a href="javascript:reply({{ comment.pk }})">回复</a>
-        <p>--------------------------</p>
-    </div>
+        
+        <a style="text-decoration: none;" href="javascript:reply({{ comment.pk }})">回复</a>
+       </div>
+
+    
     {% for reply in comment.root.all %}
-    <div class="reply" style="color:red;margin-left:100px" id="{{ reply.pk }}">
-        {{ reply.comment_text }}
-        {{ reply.comment_time }}
+    <div class="reply_all">
+    <div class="reply" id="{{ reply.pk }}">
+    	<div class="reply1">{{ reply.comment_time }}</div>
+        {{ reply.comment_text }} 
         <a href="javascript:reply({{ reply.pk }})">回复</a>
-        <p>--------------------------</p>
     </div>
+    </div>
+    
+    
+    
         {% endfor %}
+        
+        </div>
+    
+    <div class="clear"></div> 
     {% endfor %}
+    
+    
     <form action="{% url 'comment' %}" method="post" id="comment_form">
         {{ comment_form }}
         <input type="hidden" value="{{ question.pk }}" name="question_id">
@@ -35,7 +56,8 @@
     </form>
     {% endautoescape %}
     {% endblock %}
-</body>
+
+
 <script>
     {% block javascript %}
     function reply(id)
@@ -68,4 +90,3 @@
     });
     {% endblock %}
 </script>
-</html>

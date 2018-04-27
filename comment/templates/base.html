@@ -14,7 +14,7 @@
 <body>
 	<div class="HEAD">
         <h1>开启愉快的学习之旅</h1>
-		<button onclick="window.open('{% url 'login' %}')" style="color: slateblue;float: right;border: none;background-color: greenyellow;padding: 8px 25px;">登出</button>
+		<button onclick="window.open('/account/login')" style="color: slateblue;float: right;border: none;background-color: greenyellow;padding: 8px 25px;">登出</button>
 	</div>
 			
 	<div class="guid">
@@ -32,7 +32,7 @@
 		<button class="dropbtn">   传送门    </button>
         <div class="dropdown-content">
         <a href="{% url 'main' %}">首页</a>
-        <a href="#">你的一切</a>
+        <a href="/account/showuserinfo">你的一切</a>
         </div>
         </div>
         

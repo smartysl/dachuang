@@ -2,28 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>edit your information</title>
+    <title>编辑个人资料</title>
     {% load static %}
     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
     <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    
+    
+    <link href="{% static 'css/edituserinfo.css' %}" rel="stylesheet" type="text/css" />
+  
 </head>
 <body>
+	<div class="all">
+	<div class="HEAD">
+		<h1>编辑个人资料</h1>
+	</div>
+	
     <form action="{% url 'edituserinfo' %}" method="post" enctype="multipart/form-data" id="edit_form">
     {% csrf_token %}
     {% for field in userinfo_form %}
-    <div>
+    
+    <div class="you_info">
         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
         {{ field }}
          <p>{{ field.errors.as_text }}</p>
     </div>
+    
     {% endfor %}
     <p>{{ userinfo_form.non_field_errors.as_text }}</p>
-    <input type="submit" value="修改">
+     
+     <input type="submit" value="修改" style="width: 200px;background-color: paleturquoise;color: white;box-shadow: 5px 5px gray;">
     </form>
+    
+    
     <div id="list">
     </div>
+    
+   
+    </div>
 </body>
+
 <script>
     $("#edit_form").submit(function(){
         $.ajax({
@@ -41,11 +59,13 @@
             },
             error: function(xhr){
                 console.log(xhr);
+               
             }
         });
         return false;
     });
 </script>
+
 </html>
 
 

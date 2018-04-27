@@ -21,7 +21,7 @@ class Changepasswordform(forms.Form):
 class Userinfoform(forms.Form):
     nickname=forms.CharField(max_length=7,label="昵称")
     headimg = forms.ImageField(label="上传头像")
-    email=forms.EmailField(label="email")
+    email=forms.EmailField(label="email   ")
     tel=forms.CharField(max_length=20,label="tel")
     QQ=forms.CharField(max_length=20,label="QQ")
     school=forms.CharField(max_length=20,label="学校")

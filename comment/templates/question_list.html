@@ -1,43 +1,62 @@
-<!DOCTYPE html>
+
 {% extends 'base.html' %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% load staticfiles %}
+
     {% block title %}<title>{{ question_type }}</title>{% endblock %}
-</head>
-<body>
-    {% block content %}
+	{% block extracss %} 
+	<link href="{% static 'css/question_list.css' %}" type="text/css" rel="stylesheet" /> 
+	{% endblock %}
+
+
+
+
+
+{% block content %}
+    
+    	
     {% for question in questions_of_page %}
-    <div>
+    <div class="list_show" onclick="window.open('{% url 'comment' %}?question_id={{ question.pk }}')">
+        
+        <div class="user_info">
         {% for userinfo in question.user.userinfo.all %}
         <a href="{% url 'show_other_user' %}?other_user_name={{ userinfo.nickname }}"><img src="{{ userinfo.headimg.url }}" height="50px" width="50px" ></a>
         <p>{{ userinfo.nickname }}</p>
         {% endfor %}
+        </div>
+        
         {% autoescape off %}
-        <p>{{ question.question_date }}</p>
-        <a href="{% url 'comment' %}?question_id={{ question.pk }}">{{ question.question_text }}</a>
-        {% endautoescape %}
+        
+        <div class="context">
+                <h5>{{ question.question_date }}</h5>
+                 <h3>{{ question.question_text }}</h3>
+		        {% endautoescape %}
+		</div>
+    
     </div>
-    {% endfor %}
-    <form action="{% url 'post_question' '{{ question_type }}' %}" enctype="multipart/form-data" method="post" id="post_question_form">
-    {% csrf_token %}
-        {% for field in question_form %}
-        <label for="{{ field.id_for_lable }}">{{ field.label }}</label>
-        {{ field }}
-        <p>{{ field.errors.as_text }}</p>
-        {% endfor %}
-        <input type="hidden" value="{{ question_type }}" name="question_type">
-        <input type="submit" value="提问">
-    </form>
-    <div class="pagination">
+   
+     {% endfor %}
+   
+
+   
+   
+   
+   
+   <div class="pagination">
+   	
         <span class="step-links">
+        	
+        
            {% if questions_of_page.has_previous %}
             <a href="?page=1">&laquo; 首页</a>
             <a href="?page={{ questions_of_page.previous_page_number }}">上一页</a>
             {% endif %}
+        
+            
+            
         <span class="current">
             第 {{ questions_of_page.number }} 页 共 {{ questions_of_page.paginator.num_pages }} 页
         </span>
+        
         <span class="page_list">
             {% if not first_shown_page_num == 1 %}
             <a href="?page=1">1</a>
@@ -51,12 +70,32 @@
             <a href="?page={{ question_of_page.paginator.num_pages }}">{{ questions_of_page.paginator.num_pages }}</a>
             {% endif %}
         </span>
+        
+  
         {% if questions_of_page.has_next %}
             <a href="?page={{ questions_of_page.next_page_number }}">下一页</a>
             <a href="?page={{ questions_of_page.paginator.num_pages }}">尾页 &raquo;</a>
         {% endif %}
         </span>
+        
+        
+        
     </div>
-    {% endblock %}
-</body>
-</html>
+    
+    
+       <div class="question_post">
+      <form action="{% url 'post_question' '{{ question_type }}' %}" enctype="multipart/form-data" method="post" id="post_question_form">
+      {% csrf_token %}
+        {% for field in question_form %}
+        <label for="{{ field.id_for_lable }}">{{ field.label }}</label>
+        {{ field }}
+        <p>{{ field.errors.as_text }}</p>
+        {% endfor %}
+        <input type="hidden" value="{{ question_type }}" name="question_type">
+        <input type="submit" value="提问">
+    </form>
+   </div>
+    
+    
+    
+{% endblock %}

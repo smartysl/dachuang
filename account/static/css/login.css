@@ -6,6 +6,31 @@ body{
 }
 
 
+.box img{
+	float: right;
+	max-width: 350px;
+	max-height: 250px;
+}
+
+ .box {
+            width: 2400px;
+            height: 255px;
+            margin: 0px auto;
+            position: relative;
+            overflow: hidden;
+        }
+ 
+        .box ul li {
+        	list-style: none;
+            float: left;
+        }
+ 
+        .box ul {
+            width: 2000px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }  
 .HEAD{
 	
 	text-align: center;
@@ -21,9 +46,9 @@ body{
 	margin: 0px;
 }
 
-
 .FORM{
-	height: 500px;
+	
+	height: 400px;
 	margin: 0px auto;
 	background-color: aliceblue;
 }
@@ -69,7 +94,8 @@ body{
 	background-color: deepskyblue;
 }
 
-@media only screen and (min-width: 700px) {
+@media only screen and (min-width: 1000px) {
+	
 	
 	.HEAD{
 		width: 800px;
@@ -77,9 +103,9 @@ body{
 	
 	.FORM{
 		width: 800px;
-	}
-	
-	
+}
+    
+
 	
 	
 	
