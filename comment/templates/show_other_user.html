@@ -1,19 +1,50 @@
-<!DOCTYPE html>
+
 {% extends 'base.html' %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% block title %}<title>{{ other_user_name }}的个人主页</title>{% endblock %}
-</head>
-<body>
-    {% block content %}
-    {{ like_mark }}
-    <p id="like_status">{{ like_status }}</p>
-        <p>已获赞数：</p>
-        <p id="like_num">{{ like_num }}</p>
-        <button onclick="like()" id="like_botton">{{ like_status }}</button>
+{% load static %}
+    {% block title %}<title>{{ other_userinfo.nickname }}的个人主页</title>{% endblock %}
+    {% block extracss %}
+    <link href="{% static 'css/show_other_user.css' %}" rel="stylesheet" type="text/css" />
     {% endblock %}
-</body>
+    
+    {% block content %}
+    
+        
+         <div class="touxiang">
+         	 <img src="{{ other_userinfo.headimg.url }}"/> 
+            	<h3>{{ other_userinfo.nickname }}</h3>
+
+         </div>
+        
+        
+        
+        <div class="dianzan">
+        	{{ like_mark }}
+         <li>
+        	<p>已获❤：</p> 
+        <p id="like_num">{{ like_num }} </p>
+         </li>
+         <!--
+         	加入其他的东西
+         -->
+        <button onclick="like()"  style="background-image: url({% static 'images/dz.jpg' %});"></button>
+       <br /> <p id="like_status" style="float: right;margin: 30px;">{{ like_status }}</p>
+         </div>
+         
+         
+         <div class="more_info">
+           	<ul>
+           		
+           		<li>专业 ：{{ other_userinfo.major }}</li>
+           		<li>年级：{{ other_userinfo.grade }}</li>
+           	</ul>
+           
+          </div>
+          
+          
+         
+    {% endblock %}
+
+
 <script>
     {% block javascript %}
     function like()
@@ -34,12 +65,17 @@
                     $('#like_num').text(like_num.toString());
                     $('#like_status').text("已赞");
                     $('#like_botton').text("取消点赞");
+              //      $('#like_photo').
                 }
             },
             error: function(xhr){
                 console.log(xhr);
             }
         });
+        
+        
+        
+        
         }
         else
         {
@@ -68,4 +104,4 @@
     };
     {% endblock %}
 </script>
-</html>
+

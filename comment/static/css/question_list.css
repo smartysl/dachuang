@@ -51,22 +51,35 @@
 }
 
 .pagination{
-	
+	padding-top: 40px;
 	margin: 0px auto;
 	text-align: center;
 	height: 50px;
-	width: 700px;
+	width: auto;
 }
 
 .pagination a{
-	padding: 5px;
+	margin: 5px;
 	text-decoration: none;
+	padding: 10px;
+	border:2px solid gainsboro;
+	background-color: lightgreen;
+	color: black;
+	border-radius: 10px;
+}
+
+.current{
+	padding: 10px;
+	font-size: 20px;
 }
 
 
-
-
-
+.page_list a:hover{
+	padding: 10px;
+	color: aliceblue;
+	background-color: deepskyblue;
+	border-right: outset;
+}
 
 .question_post{
 	height: 400px;

@@ -21,15 +21,48 @@
 		border-radius:80px;
 		margin: 10px;
 		padding: 20px;
-		width: 250px;
-		height: 250px;
+		width: 200px;
+		height: 200px;
 		font-size: 30px;
 		 display: inline-block;
-        background-color: gainsboro;
+        background-color: whitesmoke;
+        box-shadow: 5px 5px gray;
+        
+	
 		
 	}
 	
-.sub:hover{
-	 background-color: darkturquoise;
-
+.sub a{
+	text-align: center;
+	margin: 0px auto;
+	width: 80px;
+	display: none;
+	float: none;
 }
+
+
+.sub:hover a{
+	display: block;
+	text-align: center;
+	padding: 10px 20px;
+	font-size: 20px;
+	color: darkslateblue;
+	text-decoration: none;
+	
+	
+}
+.sub span{
+	position: relative;
+}
+.sub a:hover{
+	color: white;
+	background-color: deepskyblue;
+}
+
+.sub span{
+	transition:0.5s;
+}
+
+
+
+

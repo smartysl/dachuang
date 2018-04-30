@@ -93,9 +93,10 @@ def show_other_user(request):
             request.session['other_user_name']=other_user_name
             other_user=Userinfo.objects.get(nickname=other_user_name).user
             other_user_likes_num=Userinfo.objects.get(nickname=other_user_name).like_num
+            other_userinfo=Userinfo.objects.filter(user=other_user)
             like_record=Like_record.objects.filter(to_user=other_user,from_user=from_user)
             context={}
-            context['other_user_name']=other_user_name
+            context['other_userinfo']=other_userinfo[0]
             context['like_num']=other_user_likes_num
             if like_record:
                 if like_record[0].likes==1:
