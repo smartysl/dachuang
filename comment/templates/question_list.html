@@ -15,7 +15,7 @@
     
     	
     {% for question in questions_of_page %}
-    <div class="list_show" onclick="window.open('{% url 'comment' %}?question_id={{ question.pk }}')">
+    <div class="list_show" >
         
         <div class="user_info">
         {% for userinfo in question.user.userinfo.all %}
@@ -26,7 +26,7 @@
         
         {% autoescape off %}
         
-        <div class="context">
+        <div class="context" onclick="window.open('{% url 'comment' %}?question_id={{ question.pk }}')">
                 <h5>{{ question.question_date }}</h5>
                  <h3>{{ question.question_text }}</h3>
 		        {% endautoescape %}
@@ -54,7 +54,8 @@
             
             
         <span class="current">
-            第 {{ questions_of_page.number }} 页 共 {{ questions_of_page.paginator.num_pages }} 页
+            第 {{ questions_of_page.number }} 页
+                     共 {{ questions_of_page.paginator.num_pages }} 页
         </span>
         
         <span class="page_list">

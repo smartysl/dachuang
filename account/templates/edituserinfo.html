@@ -44,7 +44,7 @@
 
 <script>
     $("#edit_form").submit(function(){
-        $.ajax({
+      // $.ajax({
             url:'{% url 'edituserinfo' %}',
             type:'POST',
             data: $(this).serialize(),
@@ -61,7 +61,7 @@
                 console.log(xhr);
                
             }
-        });
+        //});
         return false;
     });
 </script>

@@ -8,25 +8,43 @@
 </head>
 <body>
    {% if not error_msg %}
+   
+   <a href="/main" style="float: right;background-color: deeppink;padding: 5px;color: wheat;text-decoration: none;font-size: 15px;">回到首页</a>
    <div class="userinfo">
-       <h2>朋友，这你是个人信息</h2>
-        <div class="touxiang">
+       <h2 style="margin: 0px auto;text-align: center;width: 400px;">个人信息</h2>
+       
+       
+       
+       <div class="touxiang">
             <img src="{{ userinfo.headimg.url }}"> 
             	<h3>{{ userinfo.nickname }}</h3>
         </div>
           
-          <div>
-           <p>关于个人</p>
+        <button onclick="window.open('{% url 'edituserinfo' %}')"><span>编辑个人资料</span></button>
+         
+         <div>
            {% autoescape off %}
 
-           {{ userinfo.aboutme }}
+            <li style="color: gray;list-style: none;padding: 20px;">{{ userinfo.aboutme }}</li>
+           <div class="more_info">
+           	<ul>
+           		<li>电话：{{ userinfo.tel }}</li>
+           		<li>QQ  ：{{ userinfo.QQ }}</li>
+           		<li>专业 ：{{ userinfo.major }}</li>
+           		<li>年级：{{ userinfo.grade }}</li>
+           	</ul>
+           
+          </div>
 
            {% endautoescape %}
           </div>
+
    </div>
+   
    {% endif %}
   <div class="error_msg">
        <p>{{ error_msg }}</p>
+<<<<<<< HEAD
   </div>
    {% autoescape off %}
   <div class="history_record">
