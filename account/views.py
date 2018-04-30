@@ -4,6 +4,7 @@ from .models import User,Userinfo
 from .form import Userregisterform,Userloginform,Changepasswordform,Userinfoform
 from django.urls import reverse
 from django.core.mail import send_mail
+from comment.models import History_record
 def register(request):
     if request.method=="POST":
         userform=Userregisterform(request.POST)
@@ -151,6 +152,7 @@ def showuserinfo(request):
         user=User.objects.get(username=username)
         userinfo=Userinfo.objects.filter(user=user)
         if userinfo:
+            context['history_records']=History_record.objects.filter(user=user)[:30]
             context['userinfo']=userinfo[0]
         else:
             context['error_msg']='该用户尚未填写个人信息'

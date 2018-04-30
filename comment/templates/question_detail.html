@@ -34,7 +34,10 @@
     <div class="reply_all">
     <div class="reply" id="{{ reply.pk }}">
     	<div class="reply1">{{ reply.comment_time }}</div>
-        {{ reply.comment_text }} 
+        {{ reply.comment_text }}
+        {% if reply.comment_img %}
+        <img src="{{ reply.comment_img.url }}" height="100px" width="100px">
+        {% endif %}
         <a href="javascript:reply({{ reply.pk }})">回复</a>
     </div>
     </div>
@@ -49,8 +52,10 @@
     {% endfor %}
     
     
-    <form action="{% url 'comment' %}" method="post" id="comment_form">
+    <form action="{% url 'comment' %}" method="post" id="comment_form" enctype="multipart/form-data">
         {{ comment_form }}
+        <input type="file" name="comment_img" id="id_comment_img">
+        <input type="hidden" value="0" name="comment_id" id="id_comment_id">
         <input type="hidden" value="{{ question.pk }}" name="question_id">
         <input type="submit" value="评论">
     </form>
@@ -60,6 +65,7 @@
 
 <script>
     {% block javascript %}
+    window.onerror=function(){return true;}
     function reply(id)
     {
         $("#id_comment_id").val(id);
@@ -69,18 +75,29 @@
      }
     $('#comment_form').submit(function(){
         CKEDITOR.instances['id_comment_text'].updateElement();
+        var formdata=new FormData();
+        var img_obj=document.getElementById('id_comment_img').files[0];
+        formdata.append('comment_img',img_obj);
+        formdata.append('comment_text',$('#id_comment_text').val());
+        formdata.append('question_id',$('#question_id').val());
+        formdata.append('comment_id',$('#id_comment_id').val());
+        console.log(formdata.get('comment_text'));
+        console.log(formdata);
         $.ajax({
             url:'{% url 'comment' %}',
             type:'POST',
-            data: $(this).serialize(),
+            data: formdata,
             cache:false,
+            dataType:'json',
+            contentType: false,
+            <!--processData: false,-->
             success:function(data){
                 var html='<div class="reply" style="color:red;margin-left:100px" id="'+data['comment_id']+'">'+
         data['comment_text']+data['comment_date']+'<a href="javascript:reply('+data['comment_id']+')">回复</a><p>--------------------------</p></div>';
                 var id=$('#id_comment_id').val();
                 $('#'+id).after(html);
                 $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
-                console.log(html);
+                console.log(data);
             },
             error: function(xhr){
                 console.log(xhr);

@@ -19,6 +19,13 @@ class Comment(models.Model):
     comment_time=models.DateTimeField(auto_now_add=True)
     parent_comment=models.ForeignKey('self',null=True,on_delete=models.DO_NOTHING,related_name="parent")
     root_comment=models.ForeignKey('self',null=True,on_delete=models.DO_NOTHING,related_name="root")
+    comment_img=models.ImageField(upload_to='answer_img',null=True)
     class Meta:
         ordering=['comment_time']
+class History_record(models.Model):
+    user=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    viewed_question=models.ForeignKey(Question,on_delete=models.DO_NOTHING)
+    view_time=models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering=['-view_time']
 # Create your models here.

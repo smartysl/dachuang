@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Question,Like_record,Comment
+from .models import Question,Like_record,Comment,History_record
 from django.urls import reverse
 from account.models import User,Userinfo
 from .form import post_question_form,comment_form
@@ -112,36 +112,39 @@ def commment(request):
     username=request.session.get('username',default=None)
     if username:
         if request.method=="POST":
-            comment_post_form=comment_form(request.POST)
-            if comment_post_form.is_valid():
-                comment=Comment()
-                comment.comment_text=comment_post_form.cleaned_data['comment_text']
-                parent_comment_id=comment_post_form.cleaned_data['comment_id']
-                comment.comment_user=User.objects.get(username=username)
-                parent_comment=Comment.objects.filter(pk=parent_comment_id)
-                if parent_comment:
-                    comment.parent_comment=parent_comment[0]
-                    comment.root_comment=parent_comment[0].root_comment if not parent_comment[0].root_comment is None else parent_comment[0]
-                    comment.reply_user=parent_comment[0].comment_user
-                else:
-                    comment.parent_comment=None
-                    comment.root_comment=None
-                    question_id=request.POST['question_id']
-                    comment.comment_question=Question.objects.get(pk=question_id)
-                    comment.reply_user=Question.objects.get(pk=question_id).user
-                comment.save()
-                data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
-                return JsonResponse(data)
+            text_form=comment_form(request.POST)
+            comment=Comment()
+            if text_form.is_valid():
+                comment.comment_text = text_form.cleaned_data['comment_text']
+            parent_comment_id=request.POST['comment_id']
+            comment.comment_img=request.FILES.get('comment_img')
+            comment.comment_user=User.objects.get(username=username)
+            parent_comment=Comment.objects.filter(pk=parent_comment_id)
+            if parent_comment:
+                comment.parent_comment=parent_comment[0]
+                comment.root_comment=parent_comment[0].root_comment if not parent_comment[0].root_comment is None else parent_comment[0]
+                comment.reply_user=parent_comment[0].comment_user
             else:
-                return JsonResponse({'status':'fail'})
+                comment.parent_comment=None
+                comment.root_comment=None
+                question_id=request.POST['question_id']
+                comment.comment_question=Question.objects.get(pk=question_id)
+                comment.reply_user=Question.objects.get(pk=question_id).user
+            comment.save()
+            data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
+            return JsonResponse(data)
         else:
             question_id=request.GET.get("question_id")
             question=Question.objects.get(pk=question_id)
             comments=Comment.objects.filter(comment_question=question,parent_comment=None)
+            history_record=History_record()
+            history_record.user=User.objects.get(username=username)
+            history_record.viewed_question=question
+            history_record.save()
             context={}
             context['comments']=comments.order_by('-comment_time')
             context['question']=question
-            context['comment_form']=comment_form(initial={'comment_id':0})
+            context['comment_form']=comment_form()
             return render(request,'question_detail.html',context)
 
 
