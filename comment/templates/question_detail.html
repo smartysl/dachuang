@@ -9,7 +9,10 @@
 
     {% block content %}
     {% autoescape off %}
+    <div class="qus_text">
+    <p>问题:</p>
     {{ question.question_text }}
+    </div>
     {% for comment in comments %}
     
     	
@@ -18,7 +21,10 @@
         {% for comment_user_info in comment.comment_user.userinfo.all %}
        
        <div class="user_info">
+       	
+       	<img src="{{ comment_user_info.headimg.url }}" height="100px" width="100px" >
        	<h3 style="font: 30px;">{{ comment_user_info.nickname }}</h3>
+       	
        	<p>{{ comment.comment_time }}</p>
        </div>
        
@@ -29,21 +35,30 @@
         <a style="text-decoration: none;" href="javascript:reply({{ comment.pk }})">回复</a>
        </div>
 
-    
+    <div class="reply_all" id="fld{{ comment.pk }}">
     {% for reply in comment.root.all %}
-    <div class="reply_all">
+    
     <div class="reply" id="{{ reply.pk }}">
-    	<div class="reply1">{{ reply.comment_time }}</div>
+    	<div class="reply1">
+    		
+    		<p>{{ reply.comment_user }}回复：{{ reply.reply_user }}</p>
+    	</div>
+    	
         {{ reply.comment_text }} 
-        <a href="javascript:reply({{ reply.pk }})">回复</a>
-    </div>
-    </div>
-    
-    
-    
-        {% endfor %}
         
+        <div class="reply2">
+        {{ reply.comment_time }}
+        <a href="javascript:reply({{ reply.pk }})">回复</a>
         </div>
+    </div>
+   
+     {% endfor %}
+     
+       
+    </div>   
+      <a style="text-align: center;" href="javascript:show(fld{{ comment.pk }})">点击显示全部评论</a>
+    
+    </div>
     
     <div class="clear"></div> 
     {% endfor %}
@@ -88,5 +103,24 @@
         });
         return false;
     });
+    
+    
+    function show(id){
+    	var x=id;
+    	if(x.className== 'reply_all'){
+    		x.className= 'reply_all_1';
+    	}
+    	else{
+    		x.className='reply_all';
+    	}
+    	
+    }
+    
+    
+    
+    
+    
+    
+    
     {% endblock %}
 </script>

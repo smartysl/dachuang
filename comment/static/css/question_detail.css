@@ -2,6 +2,13 @@
 	clear: both;
 	overflow: hidden;
 }
+.qus_text{
+   	border: solid;
+   	text-align: left;
+   	height: auto;
+     padding: 20px;
+}
+
 
 .comment{
 	text-align: center;
@@ -15,11 +22,14 @@
 }
 
 .text{
-	text-align: center;
-	padding: 10px;
+	text-align: left;
+
+	padding: 40px;
 	height: 200px;
 }
-
+.text p{
+	padding-left:30px ;
+}
 .text a{
 	float: right;
 }
@@ -27,20 +37,30 @@
 	box-shadow: 2px 2px black;
 	text-align: center;
 	margin: 0px auto;
-	height: auto;
+	max-height:253px;
+	width: 500px;
+	overflow: hidden;
+}
+.reply_all_1{
+	box-shadow: 2px 2px black;
+	text-align: center;
+	margin: 0px auto;
 	width: 500px;
 }
+
 .reply{
 	border: solid 1px gainsboro;
 	width: 500px;
-	height: 40px;
-	
+	min-height: 40px;
+	height: auto;
 	background-color: whitesmoke;
+	text-align: left;
 }
 
 .reply p{
-	margin: 0px;
-	padding: 0px;
+	
+	margin-left: 10px;
+	padding-left: 10px;
 }
 .reply a{
 	text-decoration: none;
@@ -54,10 +74,29 @@
 	height: 20px;
 	background-color: white;
 }
+.reply2{
+	padding: 0px;
+	margin: 0px;
+	float: right;
+	width:250px;
+	height: 10px;
+}
+
+
 .user_info {
 	width:  20%;
-	
+	margin-right: 30px;
 	height: auto 100%;
 	background-color: gainsboro;
 	float: left;
+}
+
+input{
+	font-size: 20px;
+	padding-top: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 0px;
+	border: none;
+	background-color: gainsboro;
 }

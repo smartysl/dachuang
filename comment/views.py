@@ -50,7 +50,7 @@ def show_main(request):
         context={}
         try:
           context['welcome_name']=Userinfo.objects.get(user=user).nickname
-        except: 
+        except:
           context['welcome_name']='friend'
         return render(request,'main.html',context)
     else:
@@ -131,7 +131,7 @@ def commment(request):
                     comment.comment_question=Question.objects.get(pk=question_id)
                     comment.reply_user=Question.objects.get(pk=question_id).user
                 comment.save()
-                data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
+                data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'headimg':comment.comment_user.userinfo.all()[0].headimg,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
                 return JsonResponse(data)
             else:
                 return JsonResponse({'status':'fail'})
