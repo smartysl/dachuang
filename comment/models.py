@@ -28,4 +28,9 @@ class History_record(models.Model):
     view_time=models.DateTimeField(auto_now_add=True)
     class Meta:
         ordering=['-view_time']
+class Admire_record(models.Model):
+    user=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    admire_comment=models.ForeignKey(Comment,on_delete=models.DO_NOTHING)
+    admire_time=models.DateTimeField(auto_now_add=True)
+    is_admired=models.IntegerField(default=0)
 # Create your models here.

@@ -27,6 +27,9 @@
         {{ comment.comment_text }}
         
         <a style="text-decoration: none;" href="javascript:reply({{ comment.pk }})">回复</a>
+        {% if comment.comment_type == 1 %}
+            <a href="javascript:admire({{ comment.pk }})">采纳</a>
+        {% endif %}
        </div>
 
     
@@ -57,7 +60,9 @@
         <input type="file" name="comment_img" id="id_comment_img">
         <input type="hidden" value="0" name="comment_id" id="id_comment_id">
         <input type="hidden" value="{{ question.pk }}" name="question_id">
+        <input type="hidden" value="0" name="comment_type" id="id_comment_type" >
         <input type="submit" value="评论">
+        <button onclick="answer()" type="button" id="answer_button">回答问题</button>
     </form>
     {% endautoescape %}
     {% endblock %}
@@ -72,12 +77,15 @@
         $('html').animate({scrollTop:$('#comment_form').offset().top},300,function(){
         CKEDITOR.instances['id_comment_text'].focus();
         });
-     }
+        var comment_id=$('#id_comment_id');
+        if (comment_id != '0'){
+            $("#answer_button").attr("disabled","true");
+        };
+    }
     $('#comment_form').submit(function(){
         CKEDITOR.instances['id_comment_text'].updateElement();
         var form_obj=document.getElementById('comment_form');
         var formdata=new FormData(form_obj);
-        console.log(formdata.get('comment_id'));
         $.ajax({
             url:'{% url 'comment' %}',
             type:'POST',
@@ -99,6 +107,48 @@
             }
         });
         return false;
-    });
+    })
+    function answer(){
+        $('#id_comment_type').val('1');
+        CKEDITOR.instances['id_comment_text'].updateElement();
+        var form_obj=document.getElementById('comment_form');
+        var formdata=new FormData(form_obj);
+        $.ajax({
+            url:'{% url 'comment' %}',
+            type:'POST',
+            data: formdata,
+            cache:false,
+            dataType:'json',
+            contentType: false,
+            processData: false,
+            success:function(data){
+                var html='<div class="reply" style="color:red;margin-left:100px" id="'+data['comment_id']+'">'+
+        data['comment_text']+data['comment_date']+'<a href="javascript:reply('+data['comment_id']+')">回复</a><p>--------------------------</p></div>';
+                var id=$('#id_comment_id').val();
+                $('#'+id).after(html);
+                $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
+                console.log(data);
+            },
+            error: function(xhr){
+                console.log(xhr);
+            }
+        });
+        return false;
+    }
+    function admire(id){
+        $ajax({
+           url:'{% url 'comment' %}',
+           type:'POST',
+           data:{'admire':'yes','comment_id':id},
+           cache:false,
+           success:function(data){
+                console.log(data);
+           },
+           error:function(xhr){
+                console.log(xhr);
+           }
+        });
+        return false;
+    }
     {% endblock %}
 </script>

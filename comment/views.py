@@ -113,27 +113,33 @@ def commment(request):
     username=request.session.get('username',default=None)
     if username:
         if request.method=="POST":
-            text_form=comment_form(request.POST)
-            comment=Comment()
-            if text_form.is_valid():
-                comment.comment_text = text_form.cleaned_data['comment_text']
-            parent_comment_id=request.POST['comment_id']
-            comment.comment_img=request.FILES.get('comment_img')
-            comment.comment_user=User.objects.get(username=username)
-            parent_comment=Comment.objects.filter(pk=parent_comment_id)
-            if parent_comment:
-                comment.parent_comment=parent_comment[0]
-                comment.root_comment=parent_comment[0].root_comment if not parent_comment[0].root_comment is None else parent_comment[0]
-                comment.reply_user=parent_comment[0].comment_user
+            if request.POST.get('comment_type'):
+                text_form=comment_form(request.POST)
+                comment=Comment()
+                if text_form.is_valid():
+                    comment.comment_text = text_form.cleaned_data['comment_text']
+                parent_comment_id=request.POST['comment_id']
+                comment.comment_type=request.POST['comment_type']
+                comment.comment_img=request.FILES.get('comment_img')
+                comment.comment_user=User.objects.get(username=username)
+                parent_comment=Comment.objects.filter(pk=parent_comment_id)
+                if parent_comment:
+                    comment.parent_comment=parent_comment[0]
+                    comment.root_comment=parent_comment[0].root_comment if not parent_comment[0].root_comment is None else parent_comment[0]
+                    comment.reply_user=parent_comment[0].comment_user
+                else:
+                    comment.parent_comment=None
+                    comment.root_comment=None
+                    question_id=request.POST['question_id']
+                    comment.comment_question=Question.objects.get(pk=question_id)
+                    comment.reply_user=Question.objects.get(pk=question_id).user
+                comment.save()
+                data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
+                return JsonResponse(data)
             else:
-                comment.parent_comment=None
-                comment.root_comment=None
-                question_id=request.POST['question_id']
-                comment.comment_question=Question.objects.get(pk=question_id)
-                comment.reply_user=Question.objects.get(pk=question_id).user
-            comment.save()
-            data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
-            return JsonResponse(data)
+                comment_id=request.POST['comment_id']
+                comment=Comment.objects.get(pk=comment_id)
+
         else:
             question_id=request.GET.get("question_id")
             question=Question.objects.get(pk=question_id)
