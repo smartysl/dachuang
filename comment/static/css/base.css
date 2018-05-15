@@ -75,6 +75,16 @@ body{
     background-color: black;
 }
 
+.django-ckeditor-widget{
+	width: 650px;
+}
+.question_post input{
+	padding: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: none;
+	background-color: gainsboro;
+}
 
 @media only screen and (min-width: 800px) {
 	

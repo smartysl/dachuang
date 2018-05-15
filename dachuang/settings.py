@@ -118,8 +118,12 @@ USE_L10N = True
 USE_TZ = True
 CKEDITOR_CONFIGS = {
     'default': {
+        'toolbar':(
+        ['Undo','Redo'],
+        ['Smiley',],
+        ),
         'height': 300,
-        'width': 400,
+        'width': '100%',
         'removePlugins':'elementspath',
         'resize_enabled':False,
     },

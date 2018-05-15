@@ -50,6 +50,11 @@
 	font-size: x-small;
 }
 
+.context h3{
+	max-height: 80px;
+	overflow: hidden;
+}
+
 .pagination{
 	padding-top: 40px;
 	margin: 0px auto;
