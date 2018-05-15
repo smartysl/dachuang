@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Question,Like_record,Comment,History_record
+from .models import Question,Like_record,Comment,History_record,Admire_record
 from django.urls import reverse
 from account.models import User,Userinfo
 from .form import post_question_form,comment_form
@@ -134,13 +134,28 @@ def commment(request):
                     comment.comment_question=Question.objects.get(pk=question_id)
                     comment.reply_user=Question.objects.get(pk=question_id).user
                 comment.save()
-                data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'headimg':comment.comment_user.userinfo.all()[0].headimg,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
+                data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
                 return JsonResponse(data)
             else:
                 comment_id=request.POST['comment_id']
+                question_id=request.POST['question']
+                question=Question.objects.get(pk=question_id)
                 comment=Comment.objects.get(pk=comment_id)
-
+                admire_status=request.POST['admire']
+                admire_record = Admire_record()
+                admire_record.admire_comment = comment
+                admire_record.question=question
+                admire_record.user=User.objects.get(username=username)
+                if admire_status == "yes":
+                   admire_record.is_admired=1
+                   data={'admire_status':'is_admired'}
+                else:
+                    admire_record.is_admired=0
+                    data={'admire_status':'not_admired'}
+                admire_record.save()
+                return JsonResponse(data)
         else:
+            user=User.objects.get(username=username)
             question_id=request.GET.get("question_id")
             question=Question.objects.get(pk=question_id)
             comments=Comment.objects.filter(comment_question=question,parent_comment=None)
@@ -148,7 +163,9 @@ def commment(request):
             history_record.user=User.objects.get(username=username)
             history_record.viewed_question=question
             history_record.save()
+            admire_record=Admire_record.objects.filter(user=user,question=question)
             context={}
+            context['admire_records']=admire_record
             context['comments']=comments.order_by('-comment_time')
             context['question']=question
             context['comment_form']=comment_form()
