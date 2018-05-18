@@ -17,7 +17,7 @@ def register(request):
                 if User.objects.filter(username=username):
                     userform.add_error(None, "该用户名已被注册")
                 else:
-                    User.objects.create(username=username,password=password,email=email)
+                    User.objects.create(username=username,password=bathhash(password),email=email)
                     return HttpResponseRedirect(reverse('login'))
             else:
                 userform.add_error(None,"两次密码输入不一致")
@@ -34,7 +34,7 @@ def login(request):
             password=loginform.cleaned_data['password']
             user=User.objects.filter(username=username)
             if user:
-                if user[0].password==password:
+                if user[0].password==bathhash(password):
                     request.session['username']=username
                     request.session.set_expiry(0)
                     return redirect(reverse('main'))
@@ -159,4 +159,17 @@ def showuserinfo(request):
         return render(request,'show_user_info.html',context)
     else:
         return redirect(reverse('login'))
+def bathhash(list):
+    fold_num=0
+    asi_list=''
+    i=0
+    for j in list:
+        asi_list+=str(ord(j))
+    while(i<len(asi_list)-1):
+        fold_num+=int(asi_list[i]+asi_list[i+1])
+        i+=2
+    if(len(asi_list)%2==1):
+        fold_num+=int(asi_list[-1])
+    hash=str(fold_num*fold_num)[:2]+str(fold_num*fold_num)[-2:]
+    return hash
 # Create your views here.
