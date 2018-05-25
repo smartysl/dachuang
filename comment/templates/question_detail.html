@@ -9,15 +9,21 @@
 
     {% block content %}
     {% autoescape off %}
-    <div class="qus_text">
+    <ul>
+    <div class="qus_text" id="root_comment">
     <p>问题:</p>
     {{ question.question_text }}
-    </div>
-    {% for comment in comments %}
     
-    	
-    	
-    <div class="comment" id="{{ comment.pk }}">
+     <a  href="javascript:answer()" id="answer_button">
+        	<i class="iconfont icon_cart">
+        		回答问题
+			</i>
+       </a>
+    </div>
+    
+    
+    {% for comment in comments %}
+    <li class="comment" id="{{ comment.pk }}">
         {% for comment_user_info in comment.comment_user.userinfo.all %}
        
        <div class="user_info">
@@ -29,43 +35,49 @@
        </div>
        
         {% endfor %}
-        <div class="text">
+       
+       <div class="text">
         {{ comment.comment_text }}
         
-        <a style="text-decoration: none;" href="javascript:reply({{ comment.pk }})">回复</a>
+        <a  href="javascript:reply({{ comment.pk }})">
+        	<i class="iconfont icon_comment">
+			</i>
+        </a>
+        
+        
         {% if comment.comment_type == 1 %}
-            <a href="javascript:admire({{ comment.pk }})" id="admire{{ comment.pk }}">采纳</a>
+        <a href="javascript:admire({{ comment.pk }})" id="admire{{ comment.pk }}">采纳</a>
         {% endif %}
        </div>
+       
+       
 
-    <div class="reply_all" id="fld{{ comment.pk }}">
+    	<ul class="reply_all" id="fld{{ comment.pk }}">
     {% for reply in comment.root.all %}
     
-    <div class="reply" id="{{ reply.pk }}">
+    <li class="reply" id="{{ reply.pk }}">
+    	
     	<div class="reply1">
-    		
     		<p>{{ reply.comment_user }}回复：{{ reply.reply_user }}</p>
     	</div>
     	
-        {{ reply.comment_text }} 
-        
+        <i>{{ reply.comment_text }}</i> 
         <div class="reply2">
+        <a href="javascript:reply({{ reply.pk }})">回复</a><br />
         {{ reply.comment_time }}
-        <a href="javascript:reply({{ reply.pk }})">回复</a>
         </div>
-    </div>
-   
+    </li> 
      {% endfor %}
      
-       
-    </div>   
+         </ul>
       <a style="text-align: center;" href="javascript:show(fld{{ comment.pk }})">点击显示全部评论</a>
-    
-    </div>
+     
     
     <div class="clear"></div> 
+    </li>
     {% endfor %}
     
+    </ul>
     
     <form action="{% url 'comment' %}" method="post" id="comment_form" enctype="multipart/form-data" name="comment_form">
         {{ comment_form }}
@@ -110,8 +122,8 @@
             contentType: false,
             processData: false,
             success:function(data){
-                var html='<div class="reply" style="color:red;margin-left:100px" id="'+data['comment_id']+'">'+
-        data['comment_text']+data['comment_date']+'<a href="javascript:reply('+data['comment_id']+')">回复</a><p>--------------------------</p></div>';
+                var html='<li class="reply" style="width:100%;border:pink solid;" id="'+data['comment_id']+'"><div class="reply1"><p>你的回复:</p></div>'+
+       '<i>'+data['comment_text']+'</i>'+'<div class="reply2">'+data['comment_date']+'<a href="javascript:reply('+data['comment_id']+')">回复</a></div></li>';
                 var id=$('#id_comment_id').val();
                 $('#'+id).after(html);
                 $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
@@ -137,8 +149,7 @@
             contentType: false,
             processData: false,
             success:function(data){
-                var html='<div class="reply" style="color:red;margin-left:100px" id="'+data['comment_id']+'">'+
-        data['comment_text']+data['comment_date']+'<a href="javascript:reply('+data['comment_id']+')">回复</a><p>--------------------------</p></div>';
+                var html='<li class="comment" id="'+data['comment_id']+'"><div class="user_info"><img src="'+'" height="100px" width="100px" >'+data['nickname']+'</h3><p>'+data['comment_date']+'</p></div><div class="text">'+ data['comment_text']+'<a  href="javascript:reply('+data['comment_id']+')"><i class="iconfont icon_comment"></i></a></div></li>';
                 var id=$('#id_comment_id').val();
                 $('#'+id).after(html);
                 $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
@@ -167,6 +178,7 @@
                 console.log(data);
            },
            error:function(xhr){
+           	    alert('采纳失败了');
                 console.log(xhr);
            }
         });

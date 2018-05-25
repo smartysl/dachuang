@@ -18,37 +18,67 @@
 	</div>
 			
 	<div class="guid">
-	    
-	    <div class="dropdown">
+	    <ul>
+	    <li class="dropdown">
 		<button class="dropbtn">   学科    </button>
         <div class="dropdown-content">
         <a href="{% url 'post_question' 'weijifen' %}">微积分</a>
         <a href="{% url 'post_question' 'xiandai' %}">线性代数</a>
         </div>
-        </div>
+        </li>
         
         
-        <div class="dropdown">
+        <li class="dropdown">
 		<button class="dropbtn">   传送门    </button>
         <div class="dropdown-content">
         <a href="{% url 'main' %}">首页</a>
         <a href="/account/showuserinfo">你的一切</a>
         </div>
-        </div>
+        </li>
         
         
       <!--   加入导航内容-->
-    </div>
+      <li class="top_bar">
+        <i class="iconfont icon_search">
+		</i>
+		<input type="text" id="txt" placeholder="要不要百度一下啊"/>
+      </li>
+	    </ul>
+	    
+      
+	</div>
+        
         <div class="clear"></div>
         {% block content %}
         {% endblock %}
 
     
-    
-    
-    
+    <div class="return_top">
+    	<a href="/account/showuserinfo">
+    	<img src="{{ your_headimg }}" class="headimg" alt="向上"/>
+    	</a>
+    	<a href="javascript:scrollTo(0,0);" >
+    	<i class="iconfont icon_up">
+       </i>
+    	</a>
+    </div>
 </body>
 <script>
+	$(document).ready(function(){
+	$('#txt').keydown(function(ev){
+    
+    if(ev.keyCode==13&&$('#txt').val()!=''){   
+        window.open('https://www.baidu.com/s?wd='+$('#txt').val())
+        $('#txt').val('');
+    }
+   })
+	
+
+	
+	
+});
+
+	
     {% block javascript %}{% endblock %}
 </script>
 </html>

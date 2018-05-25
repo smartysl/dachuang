@@ -2,26 +2,15 @@ body{
 		text-align: center;
 		margin:0px auto ;
 	}
-
-.touxiang{
-	text-align: center;
-	margin: 0px auto;
-	
-	height: 250px;
-	width: 700px;
-
-}
-.touxiang img{
-	border: solid;
-	border-radius:100px;
-	height:200px;
-	width:200px;
-}
-.touxiang h3{
+a{
+    text-decoration: none;
+    
 	margin: 0px;
- 
+}	
+ul{
+	padding-left: 0px;
+	list-style: none;
 }
-
 button {
   display: inline-block;
   vertical-align:middle
@@ -51,12 +40,6 @@ button span:after {
   right: -20px;
   transition: 0.5s;
 }
-.userinfo{
-	height: 1000px;
-	margin: 0px;
-	    padding-top: 0px;
-		background-color: whitesmoke;
-}
 
 button:hover span {
   padding-right: 25px;
@@ -66,29 +49,110 @@ button:hover span:after {
   opacity: 1;
   right: 0;
 }
+.records_head, .records_details:hover{
+	
+	background-color: white;
+	box-shadow: 5px 5px black;
+}
+.userinfo{
+	    width: 100%;
+	    height: auto;
+	    margin: 0px;
+	    padding-top: 0px;
+		background-color: whitesmoke;
+}
+
+.touxiang{
+	text-align: center;
+	margin: 0px auto;
+	
+	height: 250px;
+
+}
+.touxiang img{
+	border: solid;
+	border-radius:100px;
+	height:200px;
+	width:200px;
+}
+.touxiang h3{
+	margin: 0px;
+ 
+}
+
+
 
 .more_info{
 	text-align: center;
 	margin: 0px auto;
 	height: auto;
-	width: 600px;
 	background-color: deepskyblue;
 	box-shadow: 5px 5px gray;
 }
 
-.more_info ul{
-	list-style: none;
-	color: beige;
-}
+
 
 .more_info li{
 	padding: 5px;
 	
 }
 
+
+.history_records{
+	 width: 80%;
+	 margin: 0px auto;
+	 height: auto;
+}
+
+.records_head{
+	width: 200px;
+}
+
+.records_details{
+	margin-bottom: 5px;
+	background-color: white;
+	border: solid 1px gray;
+	min-height: 120px;
+}
+
+.records_details a{
+	width: 100%;
+	height: auto;
+	display: inline-block;
+}
+
+.time{
+	font-size: 15px;
+	width: 150px;
+	float: right;
+	padding: 10px;
+	margin: 0px;
+	color: gray;
+}
+
+.return_top{
+	border-radius: 65px;
+	position:fixed;
+    bottom:100px;
+    right:0px;
+    overflow: hidden;
+}
+
+.return_top a{
+	text-align:center;
+    text-decoration:none;
+    color:black;
+    display:block;
+    width:80px;
+    height: 80px;
+    background-size:100% 100%;  
+}
+
 @media only screen and (min-width: 700px) {
 	body{
 		width: 700px;
 	}
-	
+	.return_top{
+		display: block;
+	}
 }

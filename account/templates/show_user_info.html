@@ -9,8 +9,9 @@
 <body>
    {% if not error_msg %}
    
-   <a href="/main" style="float: right;background-color: deeppink;padding: 5px;color: wheat;text-decoration: none;font-size: 15px;">回到首页</a>
-   <div class="userinfo">
+      <a href="/main" style="float: right;background-color: deeppink;padding: 5px;color: wheat;text-decoration: none;font-size: 15px;">回到首页</a>
+     
+     <div class="userinfo">
        <h2 style="margin: 0px auto;text-align: center;width: 400px;">个人信息</h2>
        
        
@@ -38,29 +39,39 @@
 
            {% endautoescape %}
           </div>
-
-   </div>
    
+     {% autoescape off %}
+     <div class="history_records">
+       <h2 class="records_head">历史记录</h2>
+       <ul>
+       {% for record in history_records %}
+       <li class="records_details">
+           <a href="{% url 'comment' %}?question_id={{ record.viewed_question.pk }}">
+           	{{ record.viewed_question.question_text }}
+           	<span class="time">{{ record.view_time }}</span>
+           </a>
+           
+       </li>
+       {% endfor %}
+       </ul>
+     </div>
+    
+   {% endautoescape %}
+   
+</div>
+   
+ 
+  <div class="return_top">
+    <a href="javascript:scrollTo(0,0);" style="background-image: url({% static 'images/top.jpg' %});;"></a>
+   </div>
+ 
    {% endif %}
   <div class="error_msg">
        <p>{{ error_msg }}</p>
-<<<<<<< HEAD
+
   </div>
-   {% autoescape off %}
-  <div class="history_record">
-       <h2>历史记录</h2>
-       {% for record in history_records %}
-       <span>
-           <a>{{ record.view_time }}</a>
-           <a href="{% url 'comment' %}?question_id={{ record.viewed_question.pk }}">{{ record.viewed_question.question_text }}</a>
-       </span>
-       {% endfor %}
-  </div>
-   {% endautoescape %}
-   <button onclick="window.open('{% url 'edituserinfo' %}')"><span>编辑个人资料</span></button>
-
-
-
+  
+ 
 
 </body>
 </html>

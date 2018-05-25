@@ -2,7 +2,15 @@ body{
 	text-align: center;
 	margin: 0px auto;
 }
+a{
+	text-decoration: none;
+}
 
+ul{
+	margin: 0px;
+	padding-left: 0px;
+	list-style: none;
+}
 .clear{
 	clear: both;
 }
@@ -25,9 +33,10 @@ body{
 	clear: both;
 	margin: 0px;
 	padding: 0px;
-	float: left;
+	width: 100%;
 	height: 60px;
-	
+	display: inline-block;
+	text-align: left;
 }
 
 .dropbtn {
@@ -75,6 +84,25 @@ body{
     background-color: black;
 }
 
+.top_bar{
+	margin: 0px;
+	height: 50px;
+	width: 300px;
+	float: right;
+}
+.top_bar i{
+	
+	width: 50px;
+	margin: 0px;
+}
+
+.top_bar input{
+	width: 240px;
+	height: 30px;
+}
+
+
+
 .django-ckeditor-widget{
 	width: 650px;
 }
@@ -83,9 +111,89 @@ body{
 	padding-left: 20px;
 	padding-right: 20px;
 	border: none;
-	background-color: gainsboro;
 }
 
+.return_top{
+	border: solid 2px;
+	border-radius: 65px;
+	position:fixed;
+    bottom:100px;
+    right:0px;
+    background-color: black;
+    
+    overflow: hidden;
+}
+
+.return_top a{
+	
+    display:block;
+    width:70px;
+    height: 70px;
+}
+.headimg{
+   	float: right;
+   	border: solid;
+   	border-radius: 40px;
+   	height: 70px;
+   	width: 70px;
+   }
+@font-face {
+  font-family: 'iconfont'; 
+  src: url('//at.alicdn.com/t/font_671119_y0ublfjx795jc3di.eot');
+  src: url('//at.alicdn.com/t/font_671119_y0ublfjx795jc3di.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_671119_y0ublfjx795jc3di.woff') format('woff'),
+  url('//at.alicdn.com/t/font_671119_y0ublfjx795jc3di.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_671119_y0ublfjx795jc3di.svg#iconfont') format('svg');
+}
+.iconfont{
+	width: 100%;
+	display: inline-block;
+    height: 40px;
+    margin: 15px 0px;
+    color: deepskyblue;
+     font-family:"iconfont" !important;
+    font-size:20px;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+.icon_up:before ,.icon_man:before,.icon_comment:before,.icon_home:before,.icon_cart:before{
+	font-size:50px;
+}
+
+
+
+.icon_up:before {
+	
+	background-color: black;
+ content:"\e6a9"
+}
+.icon_comment:before {
+ content:"\e6a7";
+}
+
+.icon_search:before{
+	font-size: 40px;
+	content: "\e6a4";
+}
+
+.icon_good:before{
+	content: "\e699";
+}
+
+.icon_man:before{
+	content: "\e629";
+}
+.icon_home:before{
+	content: "\e61f";
+}
+.icon_star:before{
+	content: "\e628";
+}
+.icon_cart:before{
+	content: "\e68e";
+}
 @media only screen and (min-width: 800px) {
 	
 	body{

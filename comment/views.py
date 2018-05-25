@@ -8,6 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 @csrf_exempt
 def post_question(request,question_type):
+    username=request.session.get('username',default=None)
+    user=User.objects.get(username=username)
+    context0={}
+    context0['your_headimg']=Userinfo.objects.get(user=user).headimg.url
     if request.method=="POST":
         # question_type=request.session.get('question_type',default=None)
         username=request.session.get('username',default=None)
@@ -18,7 +22,7 @@ def post_question(request,question_type):
                 question_text=question_form.cleaned_data['question_text']
                 question_img=question_form.cleaned_data['question_img']
 
-                user=User.objects.get(username=username)
+
                 question=Question(user=user,question_text=question_text,question_img=question_img,question_type=question_type)
                 question.save()
                 referer=request.META.get('HTTP_REFERER',reverse('main'))
@@ -30,7 +34,7 @@ def post_question(request,question_type):
         request.session.set_expiry(0)
         question_form=post_question_form(initial={'question_text':'提问最多200字，添加图片效果更好哦'})
         all_questions=Question.objects.filter(question_type=question_type)
-        paginator=Paginator(all_questions,2)
+        paginator=Paginator(all_questions,6)
         page_num=int(request.GET.get('page',1))
         questions_of_page=paginator.get_page(page_num)
         current_page=questions_of_page.number
@@ -42,6 +46,7 @@ def post_question(request,question_type):
         context['question_form']=question_form
         context['questions_of_page']=questions_of_page
         context['question_type']=question_type
+        context.update(context0)
         return render(request,'question_list.html',context)
 def show_main(request):
     username=request.session.get('username',default=None)
@@ -50,8 +55,10 @@ def show_main(request):
         context={}
         try:
           context['welcome_name']=Userinfo.objects.get(user=user).nickname
+          context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
         except:
           context['welcome_name']='friend'
+          context['your_headimg']='images/origin.jpg'
         return render(request,'main.html',context)
     else:
         return redirect(reverse('login'))
@@ -98,6 +105,7 @@ def show_other_user(request):
             context={}
             context['other_userinfo']=other_userinfo[0]
             context['like_num']=other_user_likes_num
+            context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
             if like_record:
                 if like_record[0].likes==1:
                     context['like_status']="已赞"
@@ -169,8 +177,7 @@ def commment(request):
             context['comments']=comments.order_by('-comment_time')
             context['question']=question
             context['comment_form']=comment_form()
+            context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
             return render(request,'question_detail.html',context)
-
-
 
 # Create your views here.
