@@ -55,7 +55,7 @@
     
     <div class="return_top">
     	<a href="/account/showuserinfo">
-    	<img src="{{ your_headimg }}" class="headimg" alt="向上"/>
+    	<img src="{{ your_headimg }}" class="headimg" alt="向上" id="head_img"/>
     	</a>
     	<a href="javascript:scrollTo(0,0);" >
     	<i class="iconfont icon_up">
@@ -64,6 +64,7 @@
     </div>
 </body>
 <script>
+    {% block javascript %}
 	$(document).ready(function(){
 	$('#txt').keydown(function(ev){
     
@@ -77,8 +78,9 @@
 	
 	
 });
-
-	
-    {% block javascript %}{% endblock %}
+    {% if not your_headimg %}
+        $("#head_img").attr('src','{% static 'images/origin.jpg' %}');
+    {% endif %}
+    {% endblock %}
 </script>
 </html>

@@ -11,7 +11,10 @@ def post_question(request,question_type):
     username=request.session.get('username',default=None)
     user=User.objects.get(username=username)
     context0={}
-    context0['your_headimg']=Userinfo.objects.get(user=user).headimg.url
+    try:
+        context0['your_headimg']=Userinfo.objects.get(user=user).headimg.url
+    except:
+        context0['your_headimg']=''
     if request.method=="POST":
         # question_type=request.session.get('question_type',default=None)
         username=request.session.get('username',default=None)
@@ -58,7 +61,7 @@ def show_main(request):
           context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
         except:
           context['welcome_name']='friend'
-          context['your_headimg']='images/origin.jpg'
+          context['your_headimg']=''
         return render(request,'main.html',context)
     else:
         return redirect(reverse('login'))
@@ -142,7 +145,11 @@ def commment(request):
                     comment.comment_question=Question.objects.get(pk=question_id)
                     comment.reply_user=Question.objects.get(pk=question_id).user
                 comment.save()
-                data={'nickname':comment.comment_user.userinfo.all()[0].nickname,'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
+                data={'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
+                try:
+                    data['nickname']=comment.comment_user.userinfo.all()[0]
+                except:
+                    data['nickname']=comment.comment_user.username
                 return JsonResponse(data)
             else:
                 comment_id=request.POST['comment_id']
@@ -177,7 +184,10 @@ def commment(request):
             context['comments']=comments.order_by('-comment_time')
             context['question']=question
             context['comment_form']=comment_form()
-            context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
+            try:
+                context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
+            except:
+                context['your_headimg'] = ''
             return render(request,'question_detail.html',context)
 
 # Create your views here.

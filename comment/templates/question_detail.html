@@ -9,7 +9,6 @@
 
     {% block content %}
     {% autoescape off %}
-    <ul>
     <div class="qus_text" id="root_comment">
     <p>问题:</p>
     {{ question.question_text }}
@@ -21,7 +20,7 @@
        </a>
     </div>
     
-    
+    <ul id="comment_block">
     {% for comment in comments %}
     <li class="comment" id="{{ comment.pk }}">
         {% for comment_user_info in comment.comment_user.userinfo.all %}
@@ -43,8 +42,6 @@
         	<i class="iconfont icon_comment">
 			</i>
         </a>
-        
-        
         {% if comment.comment_type == 1 %}
         <a href="javascript:admire({{ comment.pk }})" id="admire{{ comment.pk }}">采纳</a>
         {% endif %}
@@ -68,8 +65,7 @@
         </div>
     </li> 
      {% endfor %}
-     
-         </ul>
+    </ul>
       <a style="text-align: center;" href="javascript:show(fld{{ comment.pk }})">点击显示全部评论</a>
      
     
@@ -150,8 +146,7 @@
             processData: false,
             success:function(data){
                 var html='<li class="comment" id="'+data['comment_id']+'"><div class="user_info"><img src="'+'" height="100px" width="100px" >'+data['nickname']+'</h3><p>'+data['comment_date']+'</p></div><div class="text">'+ data['comment_text']+'<a  href="javascript:reply('+data['comment_id']+')"><i class="iconfont icon_comment"></i></a></div></li>';
-                var id=$('#id_comment_id').val();
-                $('#'+id).after(html);
+                $('#comment_block').prepend(html);
                 $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
                 console.log(data);
             },
