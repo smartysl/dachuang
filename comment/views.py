@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Question,Like_record,Comment,History_record,Admire_record
+from .models import Question,Like_record,Comment,History_record,Admire_record,Initial_integral
 from django.urls import reverse
 from account.models import User,Userinfo
 from .form import post_question_form,comment_form
@@ -20,14 +20,15 @@ def post_question(request,question_type):
         username=request.session.get('username',default=None)
         if username:
             question_type=request.POST['question_type']
+            reward_integral=int(request.POST['reward_integral'])
             question_form=post_question_form(request.POST,request.FILES)
             if question_form.is_valid():
                 question_text=question_form.cleaned_data['question_text']
                 question_img=question_form.cleaned_data['question_img']
-
-
-                question=Question(user=user,question_text=question_text,question_img=question_img,question_type=question_type)
+                question=Question(user=user,question_text=question_text,question_img=question_img,question_type=question_type,reward_integral=reward_integral)
+                user.integral-=reward_integral
                 question.save()
+                user.save()
                 referer=request.META.get('HTTP_REFERER',reverse('main'))
                 return redirect(referer)
         else:
@@ -49,20 +50,34 @@ def post_question(request,question_type):
         context['question_form']=question_form
         context['questions_of_page']=questions_of_page
         context['question_type']=question_type
+        context['max_integral']=user.integral
         context.update(context0)
         return render(request,'question_list.html',context)
+@csrf_exempt
 def show_main(request):
     username=request.session.get('username',default=None)
     if username:
         user=User.objects.get(username=username)
+        integral_record,is_created=Initial_integral.objects.get_or_create(user=user)
         context={}
-        try:
-          context['welcome_name']=Userinfo.objects.get(user=user).nickname
-          context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
-        except:
-          context['welcome_name']='friend'
-          context['your_headimg']=''
-        return render(request,'main.html',context)
+        if request.method == 'POST':
+            if not integral_record.is_aquired:
+                if request.POST.get('get_integral'):
+                    integral_record.is_aquired=1
+                    user.integral+=100
+                    integral_record.save()
+                    user.save()
+                    return JsonResponse({})
+        else:
+            if integral_record.is_aquired:
+                context['is_aquired']='1'
+            try:
+                context['welcome_name']=Userinfo.objects.get(user=user).nickname
+                context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
+            except:
+                context['welcome_name']='friend'
+                context['your_headimg']=''
+            return render(request,'main.html',context)
     else:
         return redirect(reverse('login'))
 @csrf_exempt
@@ -123,6 +138,7 @@ def show_other_user(request):
 def commment(request):
     username=request.session.get('username',default=None)
     if username:
+        user = User.objects.get(username=username)
         if request.method=="POST":
             if request.POST.get('comment_type'):
                 text_form=comment_form(request.POST)
@@ -132,7 +148,7 @@ def commment(request):
                 parent_comment_id=request.POST['comment_id']
                 comment.comment_type=request.POST['comment_type']
                 comment.comment_img=request.FILES.get('comment_img')
-                comment.comment_user=User.objects.get(username=username)
+                comment.comment_user=user
                 parent_comment=Comment.objects.filter(pk=parent_comment_id)
                 if parent_comment:
                     comment.parent_comment=parent_comment[0]
@@ -144,7 +160,9 @@ def commment(request):
                     question_id=request.POST['question_id']
                     comment.comment_question=Question.objects.get(pk=question_id)
                     comment.reply_user=Question.objects.get(pk=question_id).user
+                    user.integral+=3
                 comment.save()
+                user.save()
                 data={'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
                 try:
                     data['nickname']=comment.comment_user.userinfo.all()[0]
@@ -160,13 +178,15 @@ def commment(request):
                 admire_record = Admire_record()
                 admire_record.admire_comment = comment
                 admire_record.question=question
-                admire_record.user=User.objects.get(username=username)
+                admire_record.user=user
                 if admire_status == "yes":
                    admire_record.is_admired=1
+                   user.integral+=question.reward_integral//3+5
                    data={'admire_status':'is_admired'}
                 else:
                     admire_record.is_admired=0
                     data={'admire_status':'not_admired'}
+                user.save()
                 admire_record.save()
                 return JsonResponse(data)
         else:

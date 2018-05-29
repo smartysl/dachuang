@@ -6,6 +6,7 @@ class Question(models.Model):
     question_text=models.CharField(max_length=200)
     question_date=models.DateTimeField(auto_now_add=True)
     question_img=models.ImageField(upload_to='question_img',null=True)
+    reward_integral = models.IntegerField(default=0)
 class Like_record(models.Model):
     from_user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="from_user")
     to_user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="to_user")
@@ -34,4 +35,7 @@ class Admire_record(models.Model):
     admire_comment=models.ForeignKey(Comment,on_delete=models.DO_NOTHING)
     admire_time=models.DateTimeField(auto_now_add=True)
     is_admired=models.IntegerField(default=0)
+class Initial_integral(models.Model):
+    user=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    is_aquired=models.IntegerField(default=0)
 # Create your models here.

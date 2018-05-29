@@ -3,6 +3,7 @@ class User(models.Model):
     username=models.CharField(max_length=10)
     password=models.CharField(max_length=10)
     email=models.EmailField()
+    integral=models.IntegerField(default=0)
     def __str__(self):
         return self.username
 class Userinfo(models.Model):

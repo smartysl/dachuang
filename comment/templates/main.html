@@ -8,7 +8,9 @@
 
 
 {% block content %}
-    
+	{% if not is_aquired %}
+	<div id="dialog" title="亲爱的{{ welcome_name }}">恭喜你获得100积分，可以用来悬赏哦</div>
+    {% endif %}
     <div class="user">
     <h3 style="float: left;">HELLO {{ welcome_name }} , 请问今天要来点题吗？</h3>
     </div>
@@ -64,3 +66,22 @@
     
     
 {% endblock %}
+<script>
+{% block javascript %}
+	{% if not is_aquired %}
+		$('#dialog').dialog({
+			dialogClass: "no-close",
+			buttons:[
+				{
+					text:'太好了',
+					click:function(){
+						$.post({% url 'main' %},{'get_integral':'TRUE'});
+						$(this).dialog('close');
+					}
+				}
+			]
+		});
+	{% endif %}
+{% endblock %}
+</script>
+

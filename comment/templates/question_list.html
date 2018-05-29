@@ -31,6 +31,7 @@
         <div class="context" onclick="window.open('{% url 'comment' %}?question_id={{ question.pk }}')">
                 
                  <h3>{{ question.question_text }}</h3>
+                 <h4>悬赏{{ question.reward_integral }}积分</h4>
 		         <img  src="/media/{{ question.question_img }}" alt="该问题还没有图片描述哦" >
 		       {% endautoescape %}
 		</div>
@@ -96,10 +97,19 @@
         <p>{{ field.errors.as_text }}</p>
         {% endfor %}
         <input type="hidden" value="{{ question_type }}" name="question_type">
+        <input type="range" max={{ max_integral }} min="0" name="reward_integral" id="reward_integral" oninput="change()">
+        <label for="reward_integral">悬赏积分</label>
+        <a id="reward_num">0</a>
         <input type="submit" value="提问">
     </form>
    </div>
     
     
     
+{% endblock %}
+{% block javascript %}
+    function change(){
+        var x=$('#reward_integral').val();
+        $('#reward_num').text(x);
+    }
 {% endblock %}
