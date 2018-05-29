@@ -123,7 +123,10 @@ def show_other_user(request):
             context={}
             context['other_userinfo']=other_userinfo[0]
             context['like_num']=other_user_likes_num
-            context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
+            try:
+                context['your_headimg']=Userinfo.objects.get(user=from_user).headimg.url
+            except:
+                context['your_headimg']=''
             if like_record:
                 if like_record[0].likes==1:
                     context['like_status']="已赞"
