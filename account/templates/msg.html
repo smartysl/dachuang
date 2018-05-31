@@ -1,0 +1,56 @@
+
+{% extends 'base.html' %}
+{% load static %}
+    {% block title %}<title>个人消息(*/ω＼*)</title>{% endblock %}
+    {% block extracss %}
+    <link href="{% static 'css/msg.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/iconfont.css' %}" />
+ {% endblock %}
+ 
+    <div></div>
+    {% block content %}
+      {% autoescape off %}
+    {% if not error_msg %}
+    <div class="" >
+    	<ul>
+    	{% for user_msg in user_msgs %}
+    	
+    	{% for comment_user_info in user_msg.comment_user.userinfo.all %}
+    	<li class="comment_info">
+       
+       <div class="msg_user">
+       	<img src="{{ comment_user_info.headimg.url }}" height="70px" width="70px" >
+       	</div>
+        
+       
+        {% endfor %}
+        
+        <div class="msg_txt">
+       	<h5>{{ comment_user_info.nickname }}评论了你的问题 -----问题标题：</h5>
+       	
+       	{{ user_msg.comment_text }}
+       	 <img src="/media/{{ comment.comment_img }}" alt=""/>
+       	<br />
+        <p class="time">{{ user_msg.comment_time }}</p>
+       </div>
+       
+        </li>
+        
+        
+    	
+        </ul> 	
+    	{% endfor %}
+    </div>
+    
+    
+    {% endif %}
+    
+    
+    
+    
+    {% endautoescape %}
+    {% endblock %}
+    
+{% if error_msg %}
+    <p>{{ error_msg }}</p>
+    {% endif %}

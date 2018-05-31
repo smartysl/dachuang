@@ -31,11 +31,11 @@
         <div class="context" onclick="window.open('{% url 'comment' %}?question_id={{ question.pk }}')">
                 
                  <h3>{{ question.question_text }}</h3>
-                 <h4>悬赏{{ question.reward_integral }}积分</h4>
-		         <img  src="/media/{{ question.question_img }}" alt="该问题还没有图片描述哦" >
+		         <img  src="/media/{{ question.question_img }}" alt="" >
 		       {% endautoescape %}
 		</div>
-  
+       
+                 <h4 style="float: right;">悬赏{{ question.reward_integral }}积分</h4>
     </li>
    
      {% endfor %}

@@ -1,6 +1,4 @@
-a{
-	float: right;
-}
+
 .clear{
 	clear: both;
 	overflow: hidden;
@@ -43,6 +41,9 @@ a{
     padding: 10px;
     float: right;
 	min-height: 200px;
+}
+.text img{
+	max-width: 400px;
 }
 .text p{
 	padding-left:30px ;
@@ -97,6 +98,10 @@ a{
 	width:250px;
 }
 
-
+.site_bar{
+	float: right;
+	height: auto;
+    width: 60px;
+}
 
 

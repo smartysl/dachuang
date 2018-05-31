@@ -13,8 +13,8 @@
     <p>问题:</p>
     {{ question.question_text }}
     
-     <a  href="javascript:answer()" id="answer_button">
-        	<i class="iconfont icon_cart">
+     <a  href="javascript:scrollToEnd()" id="answer_button" style="float: right;">
+        	<i class="iconfont icon_cart" >
         		回答问题
 			</i>
        </a>
@@ -37,14 +37,21 @@
        
        <div class="text">
         {{ comment.comment_text }}
-        
+        <img src="/media/{{ comment.comment_img }}" alt=""/>
+        <div class="site_bar">
         <a  href="javascript:reply({{ comment.pk }})">
         	<i class="iconfont icon_comment">
 			</i>
         </a>
         {% if comment.comment_type == 1 %}
-        <a href="javascript:admire({{ comment.pk }})" id="admire{{ comment.pk }}">采纳</a>
+        
+        <a href="javascript:admire({{ comment.pk }})" id="admire{{ comment.pk }}">
+        	<i class="iconfont icon_smile">
+        		采纳
+        	</i>
+        </a>
         {% endif %}
+        </div>
        </div>
        
        
@@ -145,7 +152,7 @@
             contentType: false,
             processData: false,
             success:function(data){
-                var html='<li class="comment" id="'+data['comment_id']+'"><div class="user_info"><img src="'+'" height="100px" width="100px" >'+data['nickname']+'</h3><p>'+data['comment_date']+'</p></div><div class="text">'+ data['comment_text']+'<a  href="javascript:reply('+data['comment_id']+')"><i class="iconfont icon_comment"></i></a></div></li>';
+                var html='<li class="comment" id="'+data['comment_id']+'"><div class="user_info"><img src="{{ your_headimg }}" height="100px" width="100px" >'+data['nickname']+'</h3><p>'+data['comment_date']+'</p></div><div class="text">'+ data['comment_text']+'<a  href="javascript:reply('+data['comment_id']+')"><i class="iconfont icon_comment"></i></a></div></li>';
                 $('#comment_block').prepend(html);
                 $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
                 console.log(data);
@@ -191,6 +198,13 @@
     }
     
     
+
+    function scrollToEnd(){
+		            var h = $(document).height()-$(window).height();
+		            $(document).scrollTop(h); 
+    }
+
+
     
     
     

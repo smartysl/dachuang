@@ -210,7 +210,7 @@ def commment(request):
             try:
                 context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
             except:
-                context['your_headimg'] = ''
+                context['your_headimg']=''
             return render(request,'question_detail.html',context)
 
 # Create your views here.

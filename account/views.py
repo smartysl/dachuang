@@ -5,6 +5,7 @@ from .form import Userregisterform,Userloginform,Changepasswordform,Userinfoform
 from django.urls import reverse
 from django.core.mail import send_mail
 from comment.models import History_record
+from comment.models import Comment
 def register(request):
     if request.method=="POST":
         userform=Userregisterform(request.POST)
@@ -172,4 +173,19 @@ def bathhash(list):
         fold_num+=int(asi_list[-1])
     hash=str(fold_num*fold_num)[:2]+str(fold_num*fold_num)[-2:]
     return hash
+def msg(request):
+    username=request.session.get('username',default=None)
+    if username:
+             user=User.objects.get(username=username)
+             context={}
+             userinfo=Userinfo.objects.get(user=user)
+             user_msgs=Comment.objects.filter(comment_user=user,comment_read=0)
+             if userinfo:
+                 context['user_msgs']=user_msgs.order_by('-comment_time')
+
+             else:
+                 context['error_msg']='没有消息哦'
+             return render(request,'msg.html',context)
+    else:
+             return redirect(reverse('login'))
 # Create your views here.

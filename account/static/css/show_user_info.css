@@ -7,7 +7,7 @@ a{
     
 	margin: 0px;
 }	
-ul{
+ul,li{
 	padding-left: 0px;
 	list-style: none;
 }
@@ -147,6 +147,19 @@ button:hover span:after {
     height: 80px;
     background-size:100% 100%;  
 }
+.your_number{
+	margin: 10px 0px 10px 10px;
+	text-align: left;
+	display: inline-block;
+	height: 60px;
+	width: 80%;
+}
+
+.your_number li{
+	height: 60px;
+	width: 50px;
+}
+
 
 @media only screen and (min-width: 700px) {
 	body{

@@ -8,4 +8,5 @@ urlpatterns=[
     path('forgetpassword/',views.forgetpassword,name="forgetpassword"),
     path('edituserinfo/',views.edituserinfo,name="edituserinfo"),
     path('showuserinfo/',views.showuserinfo,name="showuserinfo"),
+    path('msg/',views.msg,name="msg"),
 ]

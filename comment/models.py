@@ -12,6 +12,7 @@ class Like_record(models.Model):
     to_user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="to_user")
     likes=models.IntegerField(default=0)
 class Comment(models.Model):
+    comment_read=models.IntegerField(default=0)
     comment_question=models.ForeignKey(Question,on_delete=models.DO_NOTHING,null=True)
     comment_type=models.IntegerField(default=0)
     comment_user=models.ForeignKey(User,related_name="comment",on_delete=models.DO_NOTHING)

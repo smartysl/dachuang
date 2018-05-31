@@ -5,6 +5,7 @@
     <title>个人信息</title>
         {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/show_user_info.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/iconfont.css' %}" />
 </head>
 <body>
    {% if not error_msg %}
@@ -21,7 +22,16 @@
             	<h3>{{ userinfo.nickname }}</h3>
         </div>
           
-        <button onclick="window.open('{% url 'edituserinfo' %}')"><span>编辑个人资料</span></button>
+        
+         <button onclick="window.open('{% url 'edituserinfo' %}')"><span>编辑个人资料</span></button>
+  
+ 
+         <div class="your_number">
+         	<li>
+         	<i class="iconfont icon_good">
+           {{ userinfo.like_num }}</i>
+           </li>
+         </div>
          
          <div>
            {% autoescape off %}
@@ -61,17 +71,16 @@
 </div>
    
  
-  <div class="return_top">
-    <a href="javascript:scrollTo(0,0);" style="background-image: url({% static 'images/top.jpg' %});;"></a>
-   </div>
+		  <div class="return_top">
+		    <a href="javascript:scrollTo(0,0);" style="background-image: url({% static 'images/top.jpg' %});;"></a>
+		   </div>
  
    {% endif %}
-  <div class="error_msg">
-       <p>{{ error_msg }}</p>
-
-  </div>
-  
- 
-
+   {% if error_msg %}
+	    <div class="error_msg">
+	         <p>{{ error_msg }}</p>
+	         <button onclick="window.open('{% url 'edituserinfo' %}')"><span>编辑个人资料</span></button>
+	     </div>
+	{% endif %}
 </body>
 </html>
