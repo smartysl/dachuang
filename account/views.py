@@ -1,11 +1,13 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponseRedirect,HttpResponse,JsonResponse
 from .models import User,Userinfo
+from comment.models import Admire_record
 from .form import Userregisterform,Userloginform,Changepasswordform,Userinfoform
 from django.urls import reverse
 from django.core.mail import send_mail
 from comment.models import History_record
 from comment.models import Comment
+from itertools import chain
 def register(request):
     if request.method=="POST":
         userform=Userregisterform(request.POST)
@@ -137,8 +139,7 @@ def edituserinfo(request):
                     aboutme = userinfoform.cleaned_data['aboutme']
                     Userinfo.objects.create(user=user, nickname=nickname, headimg=headimg, tel=tel, QQ=QQ, school=school,
                                         major=major, grade=grade, aboutme=aboutme)
-                else:
-                   return redirect(reverse('showuserinfo'))
+                    return redirect(reverse('showuserinfo'))
             else:
                 userinfoform = Userinfoform(initial={'email': user.email,'aboutme': '这个人很懒，什么也没有留下'})
                 context = {}
@@ -174,18 +175,24 @@ def bathhash(list):
     hash=str(fold_num*fold_num)[:2]+str(fold_num*fold_num)[-2:]
     return hash
 def msg(request):
+    count=0
     username=request.session.get('username',default=None)
     if username:
-             user=User.objects.get(username=username)
-             context={}
-             userinfo=Userinfo.objects.get(user=user)
-             user_msgs=Comment.objects.filter(comment_user=user,comment_read=0)
-             if userinfo:
-                 context['user_msgs']=user_msgs.order_by('-comment_time')
-
-             else:
-                 context['error_msg']='没有消息哦'
-             return render(request,'msg.html',context)
+         user=User.objects.get(username=username)
+         context={}
+         userinfo=Userinfo.objects.filter(user=user)
+         user_comment_msgs,user_admire_msgs=Comment.objects.filter(comment_user=user,is_read=0),Admire_record.objects.filter(admire_user=user,is_read=0)
+         user_msgs=chain(user_comment_msgs,user_admire_msgs)
+         if userinfo:
+             context['user_comment_msgs'],context['user_admire_msgs']=user_comment_msgs,user_admire_msgs
+             for user_msg in user_msgs:
+                 user_msg.is_read=1
+                 user_msg.save()
+                 count+=1
+             context['msg_num']=count
+         else:
+             context['error_msg']='没有消息哦'
+         return render(request,'msg.html',context)
     else:
-             return redirect(reverse('login'))
+         return redirect(reverse('login'))
 # Create your views here.

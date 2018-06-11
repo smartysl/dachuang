@@ -175,23 +175,25 @@ def commment(request):
             else:
                 comment_id=request.POST['comment_id']
                 question_id=request.POST['question']
+                comment = Comment.objects.get(pk=comment_id)
                 question=Question.objects.get(pk=question_id)
-                comment=Comment.objects.get(pk=comment_id)
-                admire_status=request.POST['admire']
-                admire_record = Admire_record()
-                admire_record.admire_comment = comment
-                admire_record.question=question
-                admire_record.user=user
-                if admire_status == "yes":
-                   admire_record.is_admired=1
-                   user.integral+=question.reward_integral//3+5
-                   data={'admire_status':'is_admired'}
-                else:
-                    admire_record.is_admired=0
-                    data={'admire_status':'not_admired'}
-                user.save()
-                admire_record.save()
-                return JsonResponse(data)
+                if question.user==user:
+                    admire_status=request.POST['admire']
+                    admire_record = Admire_record()
+                    admire_record.admire_comment = comment
+                    admire_record.question=question
+                    admire_record.user=user
+                    admire_record.admire_user=comment.comment_user
+                    if admire_status == "yes":
+                        admire_record.is_admired=1
+                        user.integral+=question.reward_integral//3+5
+                        data={'admire_status':'is_admired'}
+                    else:
+                        admire_record.is_admired=0
+                        data={'admire_status':'not_admired'}
+                    user.save()
+                    admire_record.save()
+                    return JsonResponse(data)
         else:
             user=User.objects.get(username=username)
             question_id=request.GET.get("question_id")
@@ -207,6 +209,8 @@ def commment(request):
             context['comments']=comments.order_by('-comment_time')
             context['question']=question
             context['comment_form']=comment_form()
+            if question.user==user:
+                context['is_user']='1'
             try:
                 context['your_headimg']=Userinfo.objects.get(user=user).headimg.url
             except:

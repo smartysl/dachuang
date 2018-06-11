@@ -25,7 +25,7 @@ SECRET_KEY = 't+^vsjlw98r%*8f8j)qjk@=&e7(@(h7kjf#t^^p19xp+8#p6fk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['smartysl.pythonanywhere.com','localhost']
 
 
 # Application definition
@@ -82,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'smart',
         'USER':'root',
-        'PASSWORD':'root',
+        'PASSWORD':'',
         'HOST':'127.0.0.1',
         'PORT':'3306',
     }
@@ -137,8 +137,10 @@ CKEDITOR_CONFIGS = {
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT=os.path.join(BASE_DIR,'static')
 STATIC_DIRS =[os.path.join(BASE_DIR,"static"),
               ]
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.sina.com"
 EMAIL_PORT = 25

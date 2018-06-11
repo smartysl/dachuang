@@ -9,7 +9,7 @@ class User(models.Model):
 class Userinfo(models.Model):
     user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="userinfo")
     nickname=models.CharField(max_length=7)
-    headimg=models.ImageField(upload_to='headimg')
+    headimg=models.ImageField(upload_to='headimg',default='headimg/苹果1_0OtvrIb.jpg')
     tel=models.CharField(max_length=20)
     QQ=models.CharField(max_length=20)
     school=models.CharField(max_length=20)

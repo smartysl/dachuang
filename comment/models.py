@@ -12,7 +12,7 @@ class Like_record(models.Model):
     to_user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name="to_user")
     likes=models.IntegerField(default=0)
 class Comment(models.Model):
-    comment_read=models.IntegerField(default=0)
+    is_read=models.IntegerField(default=0)
     comment_question=models.ForeignKey(Question,on_delete=models.DO_NOTHING,null=True)
     comment_type=models.IntegerField(default=0)
     comment_user=models.ForeignKey(User,related_name="comment",on_delete=models.DO_NOTHING)
@@ -31,11 +31,13 @@ class History_record(models.Model):
     class Meta:
         ordering=['-view_time']
 class Admire_record(models.Model):
-    user=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name='who_admire')
     question=models.ForeignKey(Question,on_delete=models.DO_NOTHING)
     admire_comment=models.ForeignKey(Comment,on_delete=models.DO_NOTHING)
+    admire_user=models.ForeignKey(User,on_delete=models.DO_NOTHING,related_name='admire_who')
     admire_time=models.DateTimeField(auto_now_add=True)
     is_admired=models.IntegerField(default=0)
+    is_read=models.IntegerField(default=0)
 class Initial_integral(models.Model):
     user=models.ForeignKey(User,on_delete=models.DO_NOTHING)
     is_aquired=models.IntegerField(default=0)

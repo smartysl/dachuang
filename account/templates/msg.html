@@ -13,7 +13,7 @@
     {% if not error_msg %}
     <div class="" >
     	<ul>
-    	{% for user_msg in user_msgs %}
+    	{% for user_msg in user_comment_msgs %}
     	
     	{% for comment_user_info in user_msg.comment_user.userinfo.all %}
     	<li class="comment_info">
@@ -33,13 +33,20 @@
        	<br />
         <p class="time">{{ user_msg.comment_time }}</p>
        </div>
-       
         </li>
-        
+        {% endfor %}
+        {% for user_msg in user_admire_msgs %}
+        <li>
+        {% for admire_user_info in user_msg.user.userinfo.all %}
+            <h5>您的回答被{{ admire_user_info.nickname }}采纳</h5>
+        {% endfor %}
+
+        </li>
+        {% endfor %}
         
     	
         </ul> 	
-    	{% endfor %}
+
     </div>
     
     

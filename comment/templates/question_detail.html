@@ -43,7 +43,7 @@
         	<i class="iconfont icon_comment">
 			</i>
         </a>
-        {% if comment.comment_type == 1 %}
+        {% if comment.comment_type == 1 and is_user %}
         
         <a href="javascript:admire({{ comment.pk }})" id="admire{{ comment.pk }}">
         	<i class="iconfont icon_smile">
@@ -203,7 +203,6 @@
 		            var h = $(document).height()-$(window).height();
 		            $(document).scrollTop(h); 
     }
-
 
     
     
