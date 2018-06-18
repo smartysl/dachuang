@@ -7,38 +7,91 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/iconfont.css' %}" />
  {% endblock %}
  
-    <div></div>
     {% block content %}
       {% autoescape off %}
     {% if not error_msg %}
-    <div class="" >
+    
+    {% if not no_msg %}
+      <h4>你有{{ msg_num }}条未读消息</h4>
+    {% endif %}
+    {% if no_msg %}
+    <p>{{ no_msg }}</p>
+    	{% endif %}
+      
+       <div class="show_readed">
+    	<a href="javascript:show(r)">
+    	<i class="iconfont icon_dropdown">
+    	</i>
+    	</a>
+    </div>
+    
+      
+    
+    <div class="read" >
     	<ul>
-    	{% for user_msg in user_comment_msgs %}
+    	{% for read_comment in user_comment_msgs %}
     	
-    	{% for comment_user_info in user_msg.comment_user.userinfo.all %}
+    	{% for comment_user_info in read_comment.comment_user.userinfo.all %}
     	<li class="comment_info">
        
        <div class="msg_user">
+       	<a href="{% url 'show_other_user' %}?other_user_name={{ comment_user_info.nickname }}">
        	<img src="{{ comment_user_info.headimg.url }}" height="70px" width="70px" >
+       	</a>
        	</div>
         
-       
-        {% endfor %}
-        
-        <div class="msg_txt">
-       	<h5>{{ comment_user_info.nickname }}评论了你的问题 -----问题标题：</h5>
+       <div class="msg_txt" >
+       	<div class="txt_head">
+       		{% if read_comment.comment_question.question_text %}
+       		
+       		{% if read_comment.comment_type == 0 %}
+       	<h5>"{{ comment_user_info.nickname }}"评论了你的问题：
+       		"{{ read_comment.comment_question.question_text }}"
+       	</h5>
+       	    {% endif %}
+       	    
+       	    {% if read_comment.comment_type == 1 %}
+       	<h5>"{{ comment_user_info.nickname }}"回答了你的问题：
+       		"{{ read_comment.comment_question.question_text }}"
+       	</h5>
+       	    {% endif %}
+       	    
+       	 {% endif %}
+       	 
+       	 {% if not read_comment.comment_question.question_text %}
+       	<h5>"{{ comment_user_info.nickname }}"回复了你：
+       		"{{ read_comment.parent_comment.comment_text }}"
+       	</h5>
+       	 {% endif %}
        	
-       	{{ user_msg.comment_text }}
+       	</div>
+       	
+       	
+       	{% endfor %}
+       	{{ read_comment.comment_text }}
        	 <img src="/media/{{ comment.comment_img }}" alt=""/>
        	<br />
-        <p class="time">{{ user_msg.comment_time }}</p>
+        <p class="time">{{ read_comment.comment_time }}</p>
        </div>
         </li>
         {% endfor %}
-        {% for user_msg in user_admire_msgs %}
-        <li>
-        {% for admire_user_info in user_msg.user.userinfo.all %}
-            <h5>您的回答被{{ admire_user_info.nickname }}采纳</h5>
+        
+        
+        
+        
+        {% for read_msg in user_admire_msgs %}
+        <li class="comment_info">
+        	
+        {% for admire_user_info in read_msg.user.userinfo.all %}	
+        <div class="msg_user">
+        	<a href="{% url 'show_other_user' %}?other_user_name={{ admire_user_info.nickname }}">
+       	<img src="{{ admire_user_info.headimg.url }}" height="70px" width="70px" >
+        	</a>
+       	</div>
+       	
+        
+            <h5>您的回答已被 "{{ admire_user_info.nickname }}"采纳</h5>
+            <p class="time">{{ read_msg.admire_time }}</p>
         {% endfor %}
 
         </li>
@@ -49,6 +102,88 @@
 
     </div>
     
+    
+ 
+    
+    
+    
+    
+    
+    <div class="readed" id="r">
+    	<ul>
+    	{% for readed_comment in readed_comment_msgs %}
+    	
+    	{% for comment_user_info in readed_comment.comment_user.userinfo.all %}
+    	<li class="comment_info" >
+       <div class="msg_user">
+       	<a href="{% url 'show_other_user' %}?other_user_name={{ comment_user_info.nickname }}">
+       	<img src="{{ comment_user_info.headimg.url }}" height="70px" width="70px" >
+       	</a>
+       	</div>
+        
+       <div class="msg_txt" >
+       	<div class="txt_head">
+       		{% if readed_comment.comment_question.question_text %}
+       		<a href="{% url 'comment' %}?question_id={{ readed_comment.comment_question.pk }}">
+       			
+       		{% if readed_comment.comment_type == 0 %}
+       	<h5>"{{ comment_user_info.nickname }}"评论了你的问题：
+       		"{{ readed_comment.comment_question.question_text }}"
+       	</h5>
+       	    {% endif %}
+       	    
+       	    {% if readed_comment.comment_type == 1 %}
+       	<h5>"{{ comment_user_info.nickname }}"回答了你的问题：
+       		"{{ readed_comment.comment_question.question_text }}"
+       	</h5>
+       	    {% endif %}
+       	    
+       	    </a>
+       	 {% endif %}
+       	 
+       	 {% if not readed_comment.comment_question.question_text %}
+       	<h5>"{{ comment_user_info.nickname }}"回复了你：
+       		"{{ readed_comment.parent_comment.comment_text }}"
+       	</h5>
+       	 {% endif %}
+       	
+       	</div>
+       	
+       	
+       	{% endfor %}
+       	{{ readed_comment.comment_text }}
+       	 <img src="/media/{{ comment.comment_img }}" alt=""/>
+       	<br />
+        <p class="time">{{ readed_comment.comment_time }}</p>
+       </div>
+        </li>
+        {% endfor %}
+        
+        
+        
+        
+        {% for readed_msg in readed_admire_msgs %}
+        <li class="comment_info">	 
+        	
+        {% for admire_user_info in readed_msg.user.userinfo.all %}	
+        <div class="msg_user">
+        	<a href="{% url 'show_other_user' %}?other_user_name={{ admire_user_info.nickname }}">
+       	<img src="{{ admire_user_info.headimg.url }}" height="70px" width="70px" >
+        	</a>
+       	</div>
+       	
+        
+            <h5>您的回答已被 "{{ admire_user_info.nickname }}"采纳</h5>
+            <p class="time">{{ readed_msg.admire_time }}</p>
+        {% endfor %}
+
+        </li>
+        {% endfor %}
+        
+    	
+        </ul> 	
+
+    </div>
     
     {% endif %}
     
@@ -61,3 +196,20 @@
 {% if error_msg %}
     <p>{{ error_msg }}</p>
     {% endif %}
+    
+<script>
+	
+    {% block javascript %}
+    function show(id){
+    	var x=id;
+    	if(x.className== 'readed'){
+    		x.className= 'no_show';
+    	}
+    	else{
+    		x.className='readed';
+    	}
+    	
+    }
+    {% endblock %}
+    
+</script>

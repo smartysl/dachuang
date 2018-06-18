@@ -14,6 +14,10 @@ ul,li{
 	margin: 5px 0px;
 	display: inline-block;
 }
+.comment_info p,h5{
+	display: inherit;
+	margin: 5px;
+}
 .msg_user{
 	width: 100px;
 	margin-right: 10px;
@@ -26,7 +30,12 @@ ul,li{
 	width: 80%;
 }
 
-.msg_txt p{
+.txt_head{
+	padding: 0px;
+	height: 40px;
+	width: 100%;
+	display: inline-block;
+	overflow: hidden;
 }
 
 .time{
@@ -34,4 +43,20 @@ ul,li{
 	float: right;
 	color: gray;
 	font-size: 10px;
+}
+
+.readed{
+	display: none;
+}
+.no_show,.no_read{
+	display: block;
+}
+.no_read{
+	width: 100%;
+	height: auto;
+}
+.show_readed{
+	height: 50px;
+	width: 50px;
+    
 }

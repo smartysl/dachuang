@@ -37,7 +37,9 @@
        
        <div class="text">
         {{ comment.comment_text }}
-        <img src="/media/{{ comment.comment_img }}" alt=""/>
+        {% if comment.comment_img %}
+        <img src="/media/{{ comment.comment_img }}" alt="">
+        {% endif %}
         <div class="site_bar">
         <a  href="javascript:reply({{ comment.pk }})">
         	<i class="iconfont icon_comment">

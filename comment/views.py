@@ -6,6 +6,10 @@ from .form import post_question_form,comment_form
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
+from comment.models import History_record
+from comment.models import Comment
+
+from itertools import chain
 @csrf_exempt
 def post_question(request,question_type):
     username=request.session.get('username',default=None)
@@ -69,6 +73,15 @@ def show_main(request):
                     user.save()
                     return JsonResponse({})
         else:
+            userinfo=Userinfo.objects.filter(user=user)
+            user_comment_msgs,user_admire_msgs=Comment.objects.filter(reply_user=user,is_read=0),Admire_record.objects.filter(admire_user=user,is_read=0)
+            user_msgs=chain(user_comment_msgs,user_admire_msgs)
+            count=0;
+            if userinfo:
+                for user_msg in user_msgs:
+                    if user_msg.is_read==0:
+                        count+=1
+            context['msg_num']=count
             if integral_record.is_aquired:
                 context['is_aquired']='1'
             try:
@@ -206,7 +219,7 @@ def commment(request):
             admire_record=Admire_record.objects.filter(user=user,question=question)
             context={}
             context['admire_records']=admire_record
-            context['comments']=comments.order_by('-comment_time')
+            context['comments']=comments.order_by('comment_time')
             context['question']=question
             context['comment_form']=comment_form()
             if question.user==user:

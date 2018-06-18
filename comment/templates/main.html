@@ -16,6 +16,8 @@
     </div>
      <div class="clear"></div>
      
+  
+   
    <div class="site" id="web">
 		
 			<ul class="web_list">
@@ -28,8 +30,11 @@
 					</a>
 				</li>
 				<li class="web_p">
-					<a href="/account/msg">
-					<i class="iconfont icon_comment">
+					<a href="/account/msg"> 
+					<i class="iconfont icon_comment" style="position: relative;">
+						 <div class="msg_num" id="msg_num">
+						   {{ msg_num }}
+						  </div>
 					</i>
 				    <span class="text">消息中心</span>
 					</a>
@@ -82,6 +87,19 @@
 			]
 		});
 	{% endif %}
+	
+	
+	$(document).ready(
+	function(){
+	
+	if ({{ msg_num }}>0)
+	{
+		$('#msg_num').css("display","block");
+	}
+	
+	}
+	);
 {% endblock %}
+
 </script>
 

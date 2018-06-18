@@ -181,17 +181,21 @@ def msg(request):
          user=User.objects.get(username=username)
          context={}
          userinfo=Userinfo.objects.filter(user=user)
-         user_comment_msgs,user_admire_msgs=Comment.objects.filter(comment_user=user,is_read=0),Admire_record.objects.filter(admire_user=user,is_read=0)
+         user_comment_msgs,user_admire_msgs=Comment.objects.filter(reply_user=user,is_read=0),Admire_record.objects.filter(admire_user=user,is_read=0)
          user_msgs=chain(user_comment_msgs,user_admire_msgs)
+         readed_comment_msgs,readed_admire_msgs=Comment.objects.filter(reply_user=user,is_read=1),Admire_record.objects.filter(admire_user=user,is_read=1)
+         readed_msgs=chain(readed_comment_msgs,readed_admire_msgs)
          if userinfo:
-             context['user_comment_msgs'],context['user_admire_msgs']=user_comment_msgs,user_admire_msgs
+             context['user_comment_msgs'],context['user_admire_msgs'],context['readed_comment_msgs'],context['readed_admire_msgs']=user_comment_msgs.order_by('-comment_time'),user_admire_msgs.order_by('-admire_time'),readed_comment_msgs.order_by('-comment_time'),readed_admire_msgs.order_by('-admire_time')
              for user_msg in user_msgs:
                  user_msg.is_read=1
                  user_msg.save()
                  count+=1
              context['msg_num']=count
+             if count == 0:
+                 context['no_msg']='亲，没有新的消息哦~'
          else:
-             context['error_msg']='没有消息哦'
+             context['error_msg']='请填写个人资料'
          return render(request,'msg.html',context)
     else:
          return redirect(reverse('login'))

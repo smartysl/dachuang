@@ -108,4 +108,16 @@
 	background-color: gainsboro;
 }
 
+.msg_num{
+	clear:both;
+	position: absolute;
+	top: 0px;
+	right: 34px;
+	color: white;
+	background: red;
+	display: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 15px;
+}
 
