@@ -52,6 +52,7 @@
         		采纳
         	</i>
         </a>
+        <a href="javascript:delete({{ comment.id }})" id="del{{ comment.pk }}" style="display:none">删除</a>
         {% endif %}
         </div>
        </div>
@@ -99,6 +100,18 @@
 
 <script>
     {% block javascript %}
+    window.onload=function(){
+        {% for comment in all_comments %}
+            check_del_user({{ comment.pk }});
+        {% endfor %}
+    }
+    function check_del_user(id){
+        $.get("{% url 'delete' %}",{'able_to_del':'1','id':id},function(data){
+        if(data['able_to_del']=='1'){
+            $('#del'+id).css('display','block');
+        }
+});
+    }
     {% for admire_record in admire_records %}
         $('#admire'+{{ admire_record.admire_comment.pk }}).text('已采纳');
     {% endfor %}

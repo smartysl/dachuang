@@ -181,12 +181,12 @@ def msg(request):
          user=User.objects.get(username=username)
          context={}
          userinfo=Userinfo.objects.filter(user=user)
-         user_comment_msgs,user_admire_msgs=Comment.objects.filter(reply_user=user,is_read=0),Admire_record.objects.filter(admire_user=user,is_read=0)
+         user_comment_msgs,user_admire_msgs=Comment.objects.filter(reply_user=user,is_read=0).order_by('-comment_time'),Admire_record.objects.filter(admire_user=user,is_read=0)
          user_msgs=chain(user_comment_msgs,user_admire_msgs)
          readed_comment_msgs,readed_admire_msgs=Comment.objects.filter(reply_user=user,is_read=1),Admire_record.objects.filter(admire_user=user,is_read=1)
          readed_msgs=chain(readed_comment_msgs,readed_admire_msgs)
          if userinfo:
-             context['user_comment_msgs'],context['user_admire_msgs'],context['readed_comment_msgs'],context['readed_admire_msgs']=user_comment_msgs.order_by('-comment_time'),user_admire_msgs.order_by('-admire_time'),readed_comment_msgs.order_by('-comment_time'),readed_admire_msgs.order_by('-admire_time')
+             context['user_comment_msgs'],context['user_admire_msgs'],context['readed_comment_msgs'],context['readed_admire_msgs']=user_comment_msgs,user_admire_msgs.order_by('-admire_time'),readed_comment_msgs.order_by('-comment_time'),readed_admire_msgs.order_by('-admire_time')
              for user_msg in user_msgs:
                  user_msg.is_read=1
                  user_msg.save()

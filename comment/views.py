@@ -181,7 +181,7 @@ def commment(request):
                 user.save()
                 data={'comment_text':comment.comment_text,'comment_date':comment.comment_time,'comment_id':comment.pk}
                 try:
-                    data['nickname']=comment.comment_user.userinfo.all()[0]
+                    data['nickname']=comment.comment_user.userinfo.all()[0].nickname
                 except:
                     data['nickname']=comment.comment_user.username
                 return JsonResponse(data)
@@ -212,12 +212,14 @@ def commment(request):
             question_id=request.GET.get("question_id")
             question=Question.objects.get(pk=question_id)
             comments=Comment.objects.filter(comment_question=question,parent_comment=None)
+            all_comments=Comment.objects.filter(comment_question=question)
             history_record=History_record()
             history_record.user=User.objects.get(username=username)
             history_record.viewed_question=question
             history_record.save()
             admire_record=Admire_record.objects.filter(user=user,question=question)
             context={}
+            context['all_comments']=all_comments
             context['admire_records']=admire_record
             context['comments']=comments.order_by('comment_time')
             context['question']=question
@@ -229,5 +231,23 @@ def commment(request):
             except:
                 context['your_headimg']=''
             return render(request,'question_detail.html',context)
+def delete(request):
+    username=request.session.get('username',default=None)
+    user=User.objects.get(username=username)
+    if request.GET['able_to_del']:
+        id=int(request.GET['id'])
+        if Comment.objects.get(pk=id).comment_user == user:
+            return JsonResponse({'able_to_del':'1'})
+        else:
+            return JsonResponse({'able_to_del':'0'})
+    if request.GET['key'] == 'comment':
+        del_id=int(request.GET['value'])
+        del_comment=Comment.objects.get(pk=del_id)
+        del del_id
+    else:
+        del_id = int(request.GET['value'])
+        del_question=Question.objects.get(pk=del_id)
+        del del_id
+    return JsonResponse({'status': 'success'})
 
 # Create your views here.
