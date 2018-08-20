@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+     <link rel="stylesheet" type="text/css" href="{% static 'css/top.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/iconfont.css' %}" />
     
@@ -68,7 +69,8 @@
     </div>
 </body>
 <script>
-    {% block javascript %}
+    {% block javascript %} 
+    {% endblock %}
 	$(document).ready(function(){
 	$('#txt').keydown(function(ev){
     
@@ -85,6 +87,7 @@
     {% if not your_headimg %}
         $("#head_img").attr('src','{% static 'images/origin.jpg' %}');
     {% endif %}
-    {% endblock %}
+    
+   
 </script>
 </html>

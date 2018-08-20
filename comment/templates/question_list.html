@@ -22,7 +22,7 @@
         <a href="{% url 'show_other_user' %}?other_user_name={{ userinfo.nickname }}">
         	<img src="{{ userinfo.headimg.url }}" height="50px" width="50px" ></a>
         <p>{{ userinfo.nickname }}</p>
-        <h5>{{ question.question_date }}</h5>
+      
         {% endfor %}
         </div>
       
@@ -35,7 +35,9 @@
 		       {% endautoescape %}
 		</div>
        
-                 <h4 style="float: right;">悬赏{{ question.reward_integral }}积分</h4>
+                 <h4 style="	font-size: 12px;	float: right;">悬赏{{ question.reward_integral }}积分
+                  <br>{{ question.question_date }}</h4>
+        
     </li>
    
      {% endfor %}

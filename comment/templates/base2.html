@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+   <link rel="stylesheet" type="text/css" href="{% static 'css/top.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/iconfont.css' %}" />
+    
+    {% block title%}<title>Title</title>{% endblock %}
+     <link rel="stylesheet" href="https://apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+     <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+     <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+     <script src="https://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+     
+    
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     {% block extracss %}{% endblock %}
+</head>
+<body>
+	<div class="HEAD">
+        <body data-spy="scroll" data-target=".navbar" data-offset="50">
+ 
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>                        
+			</button>
+			<a class="navbar-brand" href="#">学习吧</a>
+		</div>
+		<div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li><a href="#section1">计算机</a></li>
+					<li><a href="#section2">经济管理</a></li>
+					<li><a href="#section3">心理学</a></li>
+					
+					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">文 <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#section41">外语</a></li>
+							<li><a href="#section42">文学历史</a></li>
+						</ul>
+					</li>
+					
+					<li><a href="#section5">工学</a></li>
+					<li><a href="#section6">理学</a></li>
+					<li><a href="#sectio7">生命科学</a></li>
+					<li><a href="#section8">哲学</a></li>
+					<li><a href="#section9">法学</a></li>
+					<li><a href="#section10">教育教学</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>    
+
+
+        {% block content %}
+        {% endblock %}
+
+
+<div class="return_top">
+    	<a href="/account/showuserinfo">
+    	<img src="{{ your_headimg }}" class="headimg" alt="向上" id="head_img"/>
+    	</a>
+    	<a href="javascript:scrollTo(0,0);" >
+    	<i class="iconfont icon_up">
+       </i>
+    	</a>
+    </div>
+
+</body>
+<script>
+    {% block javascript %} 
+    {% endblock %}
+	$(document).ready(function(){
+	$('#txt').keydown(function(ev){
+    
+    if(ev.keyCode==13&&$('#txt').val()!=''){   
+        window.open('https://www.baidu.com/s?wd='+$('#txt').val())
+        $('#txt').val('');
+    }
+   })
+	
+
+	
+	
+});
+    {% if not your_headimg %}
+        $("#head_img").attr('src','{% static 'images/origin.jpg' %}');
+    {% endif %}
+    
+   
+</script>
+</html>

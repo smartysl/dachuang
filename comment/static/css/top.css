@@ -1,0 +1,41 @@
+.top_bar{
+	margin: 0px;
+	height: 50px;
+	width: 300px;
+	float: right;
+}
+.top_bar i{
+	
+	width: 50px;
+	margin: 0px;
+}
+
+.top_bar input{
+	width: 240px;
+	height: 30px;
+}
+
+.return_top{
+	border: solid 2px;
+	border-radius: 65px;
+	position:fixed;
+    bottom:100px;
+    right:0px;
+    background-color: black;
+    
+    overflow: hidden;
+}
+
+.return_top a{
+	
+    display:block;
+    width:70px;
+    height: 70px;
+}
+.headimg{
+   	float: right;
+   	border: solid;
+   	border-radius: 40px;
+   	height: 70px;
+   	width: 70px;
+   }

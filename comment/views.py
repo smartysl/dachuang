@@ -64,6 +64,7 @@ def show_main(request):
         user=User.objects.get(username=username)
         integral_record,is_created=Initial_integral.objects.get_or_create(user=user)
         context={}
+        context['jisuanji']=Question.objects.filter(question_type='jisuanji')
         if request.method == 'POST':
             if not integral_record.is_aquired:
                 if request.POST.get('get_integral'):

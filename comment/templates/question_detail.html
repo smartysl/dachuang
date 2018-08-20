@@ -12,6 +12,7 @@
     <div class="qus_text" id="root_comment">
     <p>问题:</p>
     {{ question.question_text }}
+    <img  style="max-width: 400px; " src="/media/{{ question.question_img }}" alt="" >
     
      <a  href="javascript:scrollToEnd()" id="answer_button" style="float: right;">
         	<i class="iconfont icon_cart" >
@@ -140,10 +141,10 @@
             contentType: false,
             processData: false,
             success:function(data){
-                var html='<li class="reply" style="width:100%;border:pink solid;" id="'+data['comment_id']+'"><div class="reply1"><p>你的回复:</p></div>'+
+                var html='<li class="reply" id="'+data['comment_id']+'"><div class="reply1"><p>你的回复:</p></div>'+
        '<i>'+data['comment_text']+'</i>'+'<div class="reply2">'+data['comment_date']+'<a href="javascript:reply('+data['comment_id']+')">回复</a></div></li>';
                 var id=$('#id_comment_id').val();
-                $('#'+id).after(html);
+                $('#'+id).append(html);
                 $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
                 console.log(data);
             },
@@ -167,7 +168,7 @@
             contentType: false,
             processData: false,
             success:function(data){
-                var html='<li class="comment" id="'+data['comment_id']+'"><div class="user_info"><img src="{{ your_headimg }}" height="100px" width="100px" >'+data['nickname']+'</h3><p>'+data['comment_date']+'</p></div><div class="text">'+ data['comment_text']+'<a  href="javascript:reply('+data['comment_id']+')"><i class="iconfont icon_comment"></i></a></div></li>';
+                var html='<li class="comment" id="'+data['comment_id']+'"><div class="user_info"><img src="{{ your_headimg }}" height="100px" width="100px" ><h3>'+data['nickname']+'</h3><p>'+data['comment_date']+'</p></div><div class="text">'+ data['comment_text']+'<a  href="javascript:reply('+data['comment_id']+')"><i class="iconfont icon_comment site_bar"></i></a></div></li>';
                 $('#comment_block').prepend(html);
                 $('html').animate({scrollTop:$('#'+data['comment_id']).offset().top},300);
                 console.log(data);
@@ -219,10 +220,8 @@
 		            $(document).scrollTop(h); 
     }
 
-    
-    
-    
-    
+ 
 
+        
     {% endblock %}
 </script>

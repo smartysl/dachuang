@@ -9,7 +9,9 @@
     width: 100%;
     display: inline-block;
 }
-
+.qus_text img{
+	max-width: 200px;
+}
 
 .comment{
 	position: relative;

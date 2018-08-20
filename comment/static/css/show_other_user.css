@@ -50,21 +50,16 @@
 }
 
 .more_info{
+	padding-right: 10px;
 	text-align: center;
 	margin: 0px auto;
 	height: auto;
-	width: 600px;
 	background-color: deepskyblue;
 	box-shadow: 5px 5px gray;
-	min-height: 150px;
-}
-
-.more_info ul{
-	list-style: none;
-	color: beige;
 }
 
 .more_info li{
+	text-align:left;
+	margin-left: 300px;
 	padding: 5px;
-	
 }

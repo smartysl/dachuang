@@ -14,9 +14,9 @@
             	<h3>{{ other_userinfo.nickname }}</h3>
                  
          </div>
-        
-        
-        
+         {% autoescape off %}
+        <li style="color: gray;list-style: none;padding: 20px;">{{ other_userinfo.aboutme }}</li>
+        {% endautoescape %}
         <div class="dianzan">
         	{{ like_mark }}
          <li>
@@ -32,11 +32,11 @@
          
          
          <div class="more_info">
-           	<ul>
-           		
+        
            		<li>专业 ：{{ other_userinfo.major }}</li>
+           		<br />
            		<li>年级：{{ other_userinfo.grade }}</li>
-           	</ul>
+       
            
           </div>
           

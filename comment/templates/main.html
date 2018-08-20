@@ -1,23 +1,23 @@
 
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% load staticfiles %}
 {% block title%}<title>主页(❤ ω ❤)</title>{% endblock %}
 {% block extracss %} 
 <link href="{% static 'css/main.css' %}" type="text/css" rel="stylesheet" /> 
+
 {% endblock %}
 
 
 {% block content %}
 	{% if not is_aquired %}
-	<div id="dialog" title="亲爱的{{ welcome_name }}">恭喜你获得100积分，可以用来悬赏哦</div>
+   <div id="dialog" title="亲爱的{{ welcome_name }}">恭喜你获得100积分，可以用来悬赏哦</div>
     {% endif %}
     <div class="user">
     <h3 style="float: left;">HELLO {{ welcome_name }} , 请问今天要来点题吗？</h3>
     </div>
      <div class="clear"></div>
      
-  
-   
+
    <div class="site" id="web">
 		
 			<ul class="web_list">
@@ -31,10 +31,10 @@
 				</li>
 				<li class="web_p">
 					<a href="/account/msg"> 
-					<i class="iconfont icon_comment" style="position: relative;">
+					<i class="iconfont icon_comment" style="position: relative; ">
 						 <div class="msg_num" id="msg_num">
 						   {{ msg_num }}
-						  </div>
+						 </div> 
 					</i>
 				    <span class="text">消息中心</span>
 					</a>
@@ -44,29 +44,62 @@
 			
 		   </div>
     
-    <div class="object">
-    	 
-    	 <div class="sub">
-    	 	<h3>数学</h3>
-    	 	<a href="{% url 'post_question' 'weijifen' %}"><span>微积分 |</span></a>
-    	    <a href="{% url 'post_question' 'xiandai' %}"><span>线 代 |</span></a>
-    	 </div>
-    	 
-    	 <div class="sub">
-    	 	<h3>其他学科</h3>
-    	 </div>
-    	 
-    	 <div class="sub">
-    	 	<h3>其他学科</h3>
-    	 </div>
-    	
-    </div>
-    
-    
-    
-    
-    
-    
+     
+     
+    <div id="section1" class="container-fluid bar">
+	<h1><a href="{% url 'post_question' 'jisuanji' %}">计算机</a></h1> 
+	{% autoescape off %}
+	{% for question in jisuanji %}
+	
+	{{ question_text }}
+	{% endfor %}
+	{% endautoescape %}
+	</div>
+	
+	<div id="section2" class="container-fluid bar">
+		
+		<h1><a href="{% url 'post_question' '经济管理' %}">经济管理</a></h1>
+	</div>
+	
+	<div id="section3" class="container-fluid bar">
+		
+		<h1><a href="{% url 'post_question' '心理学' %}">心理学</a></h1>
+	</div>
+	<div id="section41" class="container-fluid bar">
+		
+		<h1><a href="{% url 'post_question' '外语' %}">外语</a></h1>
+	</div>
+	<div id="section42" class="container-fluid bar">
+	
+		<h1><a href="{% url 'post_question' '文学历史' %}">文学历史</a></h1>
+</div>
+    <div id="section5" class="container-fluid bar">
+	
+		<h1><a href="{% url 'post_question' '工学' %}">工学</a></h1>
+	</div>
+	
+	<div id="section6" class="container-fluid bar">
+		<h1><a href="{% url 'post_question' '理学' %}">理学</a></h1>
+		
+		
+	</div>
+	
+	<div id="section7" class="container-fluid bar">
+		<h1><a href="{% url 'post_question' '生命科学' %}">生命科学</a></h1>
+		
+	</div>
+	<div id="section8" class="container-fluid bar">
+		<h1><a href="{% url 'post_question' '哲学' %}">哲学</a></h1>
+		
+	</div>
+	<div id="section9" class="container-fluid bar">
+		<h1><a href="{% url 'post_question' '法学' %}">法学</a></h1>
+		
+	</div>
+	<div id="section10" class="container-fluid bar">
+		
+		<h1><a href="{% url 'post_question' '教育教学' %}">教育教学</a></h1>
+	</div>
     
     
     
@@ -98,7 +131,17 @@
 	}
 	
 	}
+	
+	
+	$('')
+	
+	
+	
+	
+	
 	);
+	
+	
 {% endblock %}
 
 </script>
