@@ -156,6 +156,9 @@ button:hover span:after {
 }
 
 .your_number li{
+	
+	float: left;
+	padding: 10px;
 	height: 60px;
 	width: 50px;
 }

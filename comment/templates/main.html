@@ -45,63 +45,171 @@
 		   </div>
     
      
-     
+     <div class="slice">
     <div id="section1" class="container-fluid bar">
 	<h1><a href="{% url 'post_question' 'jisuanji' %}">计算机</a></h1> 
-	{% autoescape off %}
+	<ul>
+		{% autoescape off %}
 	{% for question in jisuanji %}
-	
-	{{ question_text }}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
 	{% endfor %}
 	{% endautoescape %}
+	</ul>
 	</div>
 	
 	<div id="section2" class="container-fluid bar">
 		
-		<h1><a href="{% url 'post_question' '经济管理' %}">经济管理</a></h1>
+		<h1><a href="{% url 'post_question' 'jingjiguanli' %}">经济管理</a></h1>
+    {% autoescape off %}
+	{% for question in jingjiguanli %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 	</div>
 	
 	<div id="section3" class="container-fluid bar">
 		
-		<h1><a href="{% url 'post_question' '心理学' %}">心理学</a></h1>
+		<h1><a href="{% url 'post_question' 'xinli' %}">心理学</a></h1>
+	{% autoescape off %}
+	{% for question in xinli %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 	</div>
 	<div id="section41" class="container-fluid bar">
 		
-		<h1><a href="{% url 'post_question' '外语' %}">外语</a></h1>
+		<h1><a href="{% url 'post_question' 'waiyu' %}">外语</a></h1>
+		{% autoescape off %}
+	{% for question in waiyu %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 	</div>
 	<div id="section42" class="container-fluid bar">
 	
-		<h1><a href="{% url 'post_question' '文学历史' %}">文学历史</a></h1>
+		<h1><a href="{% url 'post_question' 'history' %}">文学历史</a></h1>
+		{% autoescape off %}
+	{% for question in history %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 </div>
     <div id="section5" class="container-fluid bar">
 	
-		<h1><a href="{% url 'post_question' '工学' %}">工学</a></h1>
+		<h1><a href="{% url 'post_question' 'gongxue' %}">工学</a></h1>
+		{% autoescape off %}
+	{% for question in gongxue %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 	</div>
 	
 	<div id="section6" class="container-fluid bar">
-		<h1><a href="{% url 'post_question' '理学' %}">理学</a></h1>
+		<h1><a href="{% url 'post_question' 'lixue' %}">理学</a></h1>
+		{% autoescape off %}
+	{% for question in lixue %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 		
 		
 	</div>
 	
 	<div id="section7" class="container-fluid bar">
-		<h1><a href="{% url 'post_question' '生命科学' %}">生命科学</a></h1>
+		<h1><a href="{% url 'post_question' 'shengming' %}">生命科学</a></h1>
+		{% autoescape off %}
+	{% for question in shengming %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 		
 	</div>
 	<div id="section8" class="container-fluid bar">
-		<h1><a href="{% url 'post_question' '哲学' %}">哲学</a></h1>
+		<h1><a href="{% url 'post_question' 'zhexue' %}">哲学</a></h1>
+		{% autoescape off %}
+	{% for question in zhexue %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 		
 	</div>
 	<div id="section9" class="container-fluid bar">
-		<h1><a href="{% url 'post_question' '法学' %}">法学</a></h1>
+		<h1><a href="{% url 'post_question' 'faxue' %}">法学</a></h1>
+		{% autoescape off %}
+	{% for question in faxue %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 		
 	</div>
 	<div id="section10" class="container-fluid bar">
 		
-		<h1><a href="{% url 'post_question' '教育教学' %}">教育教学</a></h1>
+		<h1><a href="{% url 'post_question' 'edu' %}">教育教学</a></h1>
+		{% autoescape off %}
+	{% for question in edu %}
+	{% for userinfo in question.user.userinfo.all %}
+	<li>
+		
+	<a href="{% url 'comment' %}?question_id={{ question.pk }}">【{{ question.question_date }}{{ userinfo.nickname }}】{{ question.question_text }}</a>
+	</li>
+	{% endfor %}
+	{% endfor %}
+	{% endautoescape %}
 	</div>
     
-    
+</div>    
+
+
     
 {% endblock %}
 <script>

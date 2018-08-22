@@ -2,9 +2,6 @@
 .touxiang{
 	text-align: center;
 	margin: 0px auto;
-	
-	height: 250px;
-	width: 700px;
 
 }
 .touxiang img{
@@ -20,30 +17,28 @@
 
 
 
+.info li,.info p,.info i{
+	padding: 5px;
+	display: inline;
+	list-style: none;
+}
+
+
 .dianzan{
-	position: relative;
-	border: solid;
-	width: 500px;
+	position: absolute;
+	top: 30%;
+	right: 10%;
+	width:100px;
 	height:100px;
 	text-align: center;
 	margin: 0px auto;
 }
-.dianzan li{
-	list-style: none;
-}
-.dianzan p{
-	padding: 10px;
-	margin: 5px;
-	float:left;
-}
+
 
 .dianzan button{
 	margin: 10px;
 	height: 50px;
-	width:50px;
-	position: absolute;
-	right: 25px;
-	top: 0px;
+	width: 50px;
 	background-color: gray;
 	border-radius: 5px;
 	background-size:100% 100%;  

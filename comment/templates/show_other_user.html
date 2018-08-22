@@ -14,18 +14,26 @@
             	<h3>{{ other_userinfo.nickname }}</h3>
                  
          </div>
-         {% autoescape off %}
-        <li style="color: gray;list-style: none;padding: 20px;">{{ other_userinfo.aboutme }}</li>
-        {% endautoescape %}
-        <div class="dianzan">
-        	{{ like_mark }}
-         <li>
-        	<p>已获❤：</p> 
-        <p id="like_num">{{ like_num }} </p>
-         </li>
+         <ul class="info">
+         	{% autoescape off %}
+         	<br />
+        <li style="color: gray;list-style: none;padding: 20px;">{{ other_userinfo.aboutme }}</li><br/> <br />
+        <li>
+         	<i class="iconfont icon_good">
+            <p id="like_num">{{ like_num }} </p></i>
+           </li>
+           <li class="iconfont icon_coin">
+           	{{ integral }}
+           </li>
+           
          <!--
          	加入其他的东西
          -->
+        {% endautoescape %}
+         </ul>
+         
+        <div class="dianzan">
+        
         <button onclick="like()"  style="background-image: url({% static 'images/dz.jpg' %});"></button>
        <br /> <p id="like_status" style="float: right;margin: 30px;">{{ like_status }}</p>
          </div>

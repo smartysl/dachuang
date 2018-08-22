@@ -4,16 +4,53 @@
 	}
 	a{
 		text-decoration: none;
+		color: black;
+		
 	}
 	
-.bar{
+	ul{
+		list-style: none;
+		
+	}
+	p{
+	  margin: 0px;
+	  float: inherit;
+	}
+
+
+.slice{
+	background-color: #85Dc8;
 	width: 100%;
-	min-height: 200px;
-	float: left;
+	
+}
+.bar li{
+	text-align: left;
+}
+
+.bar{
+	margin: 5px;
+	width: 100%;
+	min-height: 300px;
+	float: inherit;
 	clear: both;
+	overflow: hidden;
+	box-shadow: gray 5px 5px;
+	
+	
 }
 	
+.bar p{
+	display: inline;
 	
+}
+.bar h1{
+	border-bottom: lightsalmon solid 4px;
+}
+.bar p{
+	width: auto;
+	float: inherit;
+}
+
 	.user{
 		margin-top: 60px;
 		height: 120px;
@@ -28,7 +65,7 @@
 .site{
 	min-height: 150px;
 	margin-bottom: 10px;
-	width: 100%;
+	width: %;
 	border-radius: 5px;
 	background-color: white;
 	clear: both;
@@ -52,19 +89,21 @@
 	height: auto;
 	display: inline-block;
 }
- .web_p a{
+ .web_p a,.slice li{
 	
 	width: 100%;
 	height: auto;
 	padding: 10px;
-	float: left;
-	display: inline-block;
+	float: inherit;
+	display:inline-block;
+	
 }
 
 
 
-.web_p a:hover{
+.web_p a:hover,.bar:hover{
 	background-color: gainsboro;
+
 }
 
 .msg_num{
@@ -80,7 +119,7 @@
 	border-radius: 15px;
 }
 
-.section1 {padding-top:50px;height:500px;color: #fff; background-color: #1E88E5;}
+.section1 {padding-top:50px;height:500px;color: #fff; background-color: #85Dc8;}
 .section2 {padding-top:50px;height:500px;color: #fff; background-color: #673ab7;}
 .section3 {padding-top:50px;height:500px;color: #fff; background-color: #ff9800;}
 .section41 {padding-top:50px;height:500px;color: #fff; background-color: #00bcd4;}

@@ -156,6 +156,7 @@ def showuserinfo(request):
         if userinfo:
             context['history_records']=History_record.objects.filter(user=user)[:30]
             context['userinfo']=userinfo[0]
+            context['integral']=user.integral
         else:
             context['error_msg']='该用户尚未填写个人信息'
         return render(request,'show_user_info.html',context)

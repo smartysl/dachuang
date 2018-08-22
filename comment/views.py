@@ -64,7 +64,10 @@ def show_main(request):
         user=User.objects.get(username=username)
         integral_record,is_created=Initial_integral.objects.get_or_create(user=user)
         context={}
-        context['jisuanji']=Question.objects.filter(question_type='jisuanji')
+        marjors = ['jisuanji','jingjiguanli','xinli','waiyu','history','gongxue','lixue','shengming','zhexue','faxue','edu']
+
+        for marjor in marjors:
+            context[marjor]=Question.objects.filter(question_type=marjor)[:5]
         if request.method == 'POST':
             if not integral_record.is_aquired:
                 if request.POST.get('get_integral'):
@@ -137,6 +140,7 @@ def show_other_user(request):
             context={}
             context['other_userinfo']=other_userinfo[0]
             context['like_num']=other_user_likes_num
+            context['integral']=other_user.integral
             try:
                 context['your_headimg']=Userinfo.objects.get(user=from_user).headimg.url
             except:

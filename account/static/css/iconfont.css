@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'iconfont';  /* project id 671119 */
-  src: url('//at.alicdn.com/t/font_671119_ebdbppbmbct.eot');
-  src: url('//at.alicdn.com/t/font_671119_ebdbppbmbct.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_671119_ebdbppbmbct.woff') format('woff'),
-  url('//at.alicdn.com/t/font_671119_ebdbppbmbct.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_671119_ebdbppbmbct.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_671119_ifyid75jysi.eot');
+  src: url('//at.alicdn.com/t/font_671119_ifyid75jysi.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_671119_ifyid75jysi.woff') format('woff'),
+  url('//at.alicdn.com/t/font_671119_ifyid75jysi.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_671119_ifyid75jysi.svg#iconfont') format('svg');
 }
 
 .iconfont{
@@ -61,4 +61,8 @@
 }
 .icon_dropdown:before{
 	content: "\e600";
+}
+
+.icon_coin:before{
+	content: "\e6fb";
 }
